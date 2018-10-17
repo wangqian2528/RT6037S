@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<Workspace>
+  <ConfigDictionary>
+    
+  <CurrentConfigs><Project>G280_Bootload/Debug</Project></CurrentConfigs></ConfigDictionary>
+  <Desktop>
+    <Static>
+      <Workspace>
+        <ColumnWidths>
+          
+          
+          
+          
+        <Column0>162</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+      </Workspace>
+      <Build>
+        
+        
+        
+        
+      <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>915</ColumnWidth1><ColumnWidth2>244</ColumnWidth2><ColumnWidth3>61</ColumnWidth3></Build>
+      <Find-in-Files>
+        
+        
+        
+      <ColumnWidth0>440</ColumnWidth0><ColumnWidth1>62</ColumnWidth1><ColumnWidth2>754</ColumnWidth2></Find-in-Files>
+      <TerminalIO/>
+    <Debug-Log><ColumnWidth0>28</ColumnWidth0><ColumnWidth1>1853</ColumnWidth1></Debug-Log></Static>
+    <Windows>
+      
+      
+    <Wnd0>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-28879-4638</Identity>
+            <TabName>Workspace</TabName>
+            <Factory>Workspace</Factory>
+            <Session>
+              
+            <NodeDict><ExpandedNode>G280_Bootload</ExpandedNode><ExpandedNode>G280_Bootload/CMSIS</ExpandedNode><ExpandedNode>G280_Bootload/Driver</ExpandedNode><ExpandedNode>G280_Bootload/bootloader.c</ExpandedNode><ExpandedNode>G280_Bootload/emlib</ExpandedNode></NodeDict></Session>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd0><Wnd1>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-17210-5471</Identity>
+            <TabName>Build</TabName>
+            <Factory>Build</Factory>
+            <Session/>
+          </Tab>
+          <Tab>
+            <Identity>TabID-7173-6682</Identity>
+            <TabName>Find in Files</TabName>
+            <Factory>Find-in-Files</Factory>
+            <Session/>
+          </Tab>
+        <Tab><Identity>TabID-13835-20765</Identity><TabName>Debug Log</TabName><Factory>Debug-Log</Factory><Session/></Tab></Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd1></Windows>
+    <Editor>
+      
+      
+      
+      
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\src\flash.c</Filename><XPos>0</XPos><YPos>75</YPos><SelStart>3179</SelStart><SelEnd>3179</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\src\debuglock.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\src\crc.c</Filename><XPos>0</XPos><YPos>29</YPos><SelStart>2161</SelStart><SelEnd>2161</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\src\usart.c</Filename><XPos>0</XPos><YPos>93</YPos><SelStart>4061</SelStart><SelEnd>4061</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\src\boot.c</Filename><XPos>0</XPos><YPos>90</YPos><SelStart>3156</SelStart><SelEnd>3156</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\src\xmodem.c</Filename><XPos>0</XPos><YPos>97</YPos><SelStart>3874</SelStart><SelEnd>3874</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Device\EnergyMicro\EFM32TG\Include\efm32.h</Filename><XPos>0</XPos><YPos>135</YPos><SelStart>4016</SelStart><SelEnd>4016</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\emlib\inc\em_gpio.h</Filename><XPos>0</XPos><YPos>405</YPos><SelStart>16194</SelStart><SelEnd>16194</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Device\EnergyMicro\EFM32TG\Include\efm32tg842f8.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>1092</SelStart><SelEnd>1092</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\src\xmodem.h</Filename><XPos>0</XPos><YPos>38</YPos><SelStart>2319</SelStart><SelEnd>2319</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\src\crc.h</Filename><XPos>0</XPos><YPos>26</YPos><SelStart>1515</SelStart><SelEnd>1515</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\src\bootloader.c</Filename><XPos>0</XPos><YPos>212</YPos><SelStart>7655</SelStart><SelEnd>7655</SelEnd></Tab><ActiveTab>11</ActiveTab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Positions>
+      
+      
+      
+      
+      
+    <Top><Row0><Sizes><Toolbar-01378470><key>iaridepm.enu1</key></Toolbar-01378470></Sizes></Row0></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>680</Bottom><Right>253</Right><x>-2</x><y>-2</y><xscreen>85</xscreen><yscreen>153</yscreen><sizeHorzCX>59028</sizeHorzCX><sizeHorzCY>179157</sizeHorzCY><sizeVertCX>177083</sizeVertCX><sizeVertCY>798595</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>129</Bottom><Right>1442</Right><x>-2</x><y>-2</y><xscreen>1444</xscreen><yscreen>131</yscreen><sizeHorzCX>1002778</sizeHorzCX><sizeHorzCY>153396</sizeHorzCY><sizeVertCX>59028</sizeVertCX><sizeVertCY>179157</sizeVertCY></Rect></Wnd1></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+  </Desktop>
+</Workspace>
+
+

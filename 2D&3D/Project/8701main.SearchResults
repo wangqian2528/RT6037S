@@ -1,0 +1,17 @@
+---- _2D_FLAG Matches (16 in 2 files) ----
+AxisMotor.c (e:\project\rt6037s(3d)\软件\驱动板\软件\2d3d共板\rt6037(3d)_main_all_us003_v1.00_20180402\源代码\rt6037(3d)_main_all_us003_v1.0_20180112\application\src):extern unsigned char  _2D_FLAG;
+AxisMotor.c (e:\project\rt6037s(3d)\软件\驱动板\软件\2d3d共板\rt6037(3d)_main_all_us003_v1.00_20180402\源代码\rt6037(3d)_main_all_us003_v1.0_20180112\application\src):    if(_2D_FLAG==1)
+Main.c (e:\project\rt6037s(3d)\软件\驱动板\软件\2d3d共板\rt6037(3d)_main_all_us003_v1.00_20180402\源代码\rt6037(3d)_main_all_us003_v1.0_20180112\application\src):unsigned char  _2D_FLAG;
+Main.c (e:\project\rt6037s(3d)\软件\驱动板\软件\2d3d共板\rt6037(3d)_main_all_us003_v1.00_20180402\源代码\rt6037(3d)_main_all_us003_v1.0_20180112\application\src):  if(_2D_FLAG==1)
+Main.c (e:\project\rt6037s(3d)\软件\驱动板\软件\2d3d共板\rt6037(3d)_main_all_us003_v1.00_20180402\源代码\rt6037(3d)_main_all_us003_v1.0_20180112\application\src):            _2D_FLAG=1;
+Main.c (e:\project\rt6037s(3d)\软件\驱动板\软件\2d3d共板\rt6037(3d)_main_all_us003_v1.00_20180402\源代码\rt6037(3d)_main_all_us003_v1.0_20180112\application\src):            _2D_FLAG=0;
+Main.c (e:\project\rt6037s(3d)\软件\驱动板\软件\2d3d共板\rt6037(3d)_main_all_us003_v1.00_20180402\源代码\rt6037(3d)_main_all_us003_v1.0_20180112\application\src):			 if(_2D_FLAG==1)
+Main.c (e:\project\rt6037s(3d)\软件\驱动板\软件\2d3d共板\rt6037(3d)_main_all_us003_v1.00_20180402\源代码\rt6037(3d)_main_all_us003_v1.0_20180112\application\src):		 	if(_2D_FLAG==1)
+Main.c (e:\project\rt6037s(3d)\软件\驱动板\软件\2d3d共板\rt6037(3d)_main_all_us003_v1.00_20180402\源代码\rt6037(3d)_main_all_us003_v1.0_20180112\application\src):		 	 if(_2D_FLAG==1)
+Main.c (e:\project\rt6037s(3d)\软件\驱动板\软件\2d3d共板\rt6037(3d)_main_all_us003_v1.00_20180402\源代码\rt6037(3d)_main_all_us003_v1.0_20180112\application\src):		 	if(_2D_FLAG==1)
+Main.c (e:\project\rt6037s(3d)\软件\驱动板\软件\2d3d共板\rt6037(3d)_main_all_us003_v1.00_20180402\源代码\rt6037(3d)_main_all_us003_v1.0_20180112\application\src):	  if(_2D_FLAG==1)
+Main.c (e:\project\rt6037s(3d)\软件\驱动板\软件\2d3d共板\rt6037(3d)_main_all_us003_v1.00_20180402\源代码\rt6037(3d)_main_all_us003_v1.0_20180112\application\src):			if(_2D_FLAG==1)
+Main.c (e:\project\rt6037s(3d)\软件\驱动板\软件\2d3d共板\rt6037(3d)_main_all_us003_v1.00_20180402\源代码\rt6037(3d)_main_all_us003_v1.0_20180112\application\src):		  if(_2D_FLAG==1)
+Main.c (e:\project\rt6037s(3d)\软件\驱动板\软件\2d3d共板\rt6037(3d)_main_all_us003_v1.00_20180402\源代码\rt6037(3d)_main_all_us003_v1.0_20180112\application\src):            _2D_FLAG=1;
+Main.c (e:\project\rt6037s(3d)\软件\驱动板\软件\2d3d共板\rt6037(3d)_main_all_us003_v1.00_20180402\源代码\rt6037(3d)_main_all_us003_v1.0_20180112\application\src):        _2D_FLAG=0;
+Main.c (e:\project\rt6037s(3d)\软件\驱动板\软件\2d3d共板\rt6037(3d)_main_all_us003_v1.00_20180402\源代码\rt6037(3d)_main_all_us003_v1.0_20180112\application\src):			if(_2D_FLAG==1)

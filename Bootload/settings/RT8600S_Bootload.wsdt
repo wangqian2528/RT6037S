@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<Workspace>
+  <ConfigDictionary>
+    
+  <CurrentConfigs><Project>RT8600S_Bootload/Debug</Project></CurrentConfigs></ConfigDictionary>
+  <Desktop>
+    <Static>
+      <Workspace>
+        <ColumnWidths>
+          
+          
+          
+          
+        <Column0>261</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+      </Workspace>
+      <Build>
+        
+        
+        
+        
+      <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>1035</ColumnWidth1><ColumnWidth2>276</ColumnWidth2><ColumnWidth3>69</ColumnWidth3></Build>
+    <TerminalIO/><Find-in-Files><ColumnWidth0>365</ColumnWidth0><ColumnWidth1>52</ColumnWidth1><ColumnWidth2>627</ColumnWidth2><ColumnWidth3>268</ColumnWidth3></Find-in-Files><Debug-Log><ColumnWidth0>22</ColumnWidth0><ColumnWidth1>1305</ColumnWidth1></Debug-Log><Select-Ambiguous-Definitions><ColumnWidth0>470</ColumnWidth0><ColumnWidth1>67</ColumnWidth1><ColumnWidth2>806</ColumnWidth2></Select-Ambiguous-Definitions></Static>
+    <Windows>
+      
+      
+    <Wnd0>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-32364-16795</Identity>
+            <TabName>Workspace</TabName>
+            <Factory>Workspace</Factory>
+            <Session>
+              
+            <NodeDict><ExpandedNode>RT8600S_Bootload</ExpandedNode></NodeDict></Session>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd0><Wnd1>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-7501-17057</Identity>
+            <TabName>Build</TabName>
+            <Factory>Build</Factory>
+            <Session/>
+          </Tab>
+        <Tab><Identity>TabID-27314-22206</Identity><TabName>Find in Files</TabName><Factory>Find-in-Files</Factory><Session/></Tab><Tab><Identity>TabID-8217-19773</Identity><TabName>Ambiguous Definitions</TabName><Factory>Select-Ambiguous-Definitions</Factory><Session/></Tab><Tab><Identity>TabID-16058-31262</Identity><TabName>Debug Log</TabName><Factory>Debug-Log</Factory><Session/></Tab></Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd1></Windows>
+    <Editor>
+      
+      
+      
+      
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Device\EnergyMicro\EFM32G\Include\efm32.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>0</SelStart2><SelEnd2>0</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Device\EnergyMicro\EFM32G\Include\efm32g890f64.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>0</SelStart2><SelEnd2>0</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Device\EnergyMicro\EFM32LG\Include\efm32lg_devinfo.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>43</YPos2><SelStart2>2866</SelStart2><SelEnd2>2866</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\emlib\inc\em_usart.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>302</YPos2><SelStart2>13477</SelStart2><SelEnd2>13477</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\src\boot.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>95</YPos2><SelStart2>4015</SelStart2><SelEnd2>4015</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\emlib\inc\em_cmu.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>245</YPos2><SelStart2>9861</SelStart2><SelEnd2>9861</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Device\EnergyMicro\EFM32LG\Include\efm32lg_uart.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>213</YPos2><SelStart2>78657</SelStart2><SelEnd2>78657</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Device\EnergyMicro\EFM32LG\Include\efm32lg280f128.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>1272</YPos2><SelStart2>122960</SelStart2><SelEnd2>122960</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\emlib\src\em_leuart.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>616</YPos2><SelStart2>21503</SelStart2><SelEnd2>21503</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\emlib\src\em_usart.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>961</YPos2><SelStart2>32793</SelStart2><SelEnd2>32793</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\src\flash.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>132</YPos2><SelStart2>4951</SelStart2><SelEnd2>5029</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\src\xmodemleuart.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>12</YPos2><SelStart2>1490</SelStart2><SelEnd2>1490</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\src\usart.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>20</YPos2><SelStart2>0</SelStart2><SelEnd2>0</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Device\EnergyMicro\EFM32G\Source\IAR\startup_efm32g.s</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>119</YPos2><SelStart2>4649</SelStart2><SelEnd2>4649</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\config_gecko\config.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>38</YPos2><SelStart2>2002</SelStart2><SelEnd2>2002</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\src\usart.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>142</YPos2><SelStart2>4292</SelStart2><SelEnd2>4292</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\src\bootloader.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>546</YPos2><SelStart2>18375</SelStart2><SelEnd2>18375</SelEnd2></Tab><ActiveTab>16</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\src\xmodem.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>163</YPos2><SelStart2>5861</SelStart2><SelEnd2>5861</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\src\xmodemleuart.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>78</YPos2><SelStart2>4001</SelStart2><SelEnd2>4001</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\src\xmodem.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>31</YPos2><SelStart2>1486</SelStart2><SelEnd2>1486</SelEnd2></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Positions>
+      
+      
+      
+      
+      
+    <Top><Row0><Sizes><Toolbar-0265EFA0><key>iaridepm.enu1</key></Toolbar-0265EFA0></Sizes></Row0></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>439</Bottom><Right>335</Right><x>-2</x><y>-2</y><xscreen>112</xscreen><yscreen>107</yscreen><sizeHorzCX>81991</sizeHorzCX><sizeHorzCY>155977</sizeHorzCY><sizeVertCX>246706</sizeVertCX><sizeVertCY>642857</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>202</Bottom><Right>1368</Right><x>-2</x><y>-2</y><xscreen>1370</xscreen><yscreen>204</yscreen><sizeHorzCX>1002928</sizeHorzCX><sizeHorzCY>297376</sizeHorzCY><sizeVertCX>81991</sizeVertCX><sizeVertCY>155977</sizeVertCY></Rect></Wnd1></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+  </Desktop>
+</Workspace>
+
+

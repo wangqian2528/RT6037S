@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<Workspace>
+  <ConfigDictionary>
+    
+  <CurrentConfigs><Project>RT8600S/Debug</Project></CurrentConfigs></ConfigDictionary>
+  <Desktop>
+    <Static>
+      <Workspace>
+        <ColumnWidths>
+          
+          
+          
+          
+        <Column0>84</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+      </Workspace>
+      <Build>
+        
+        
+        
+        
+      <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>980</ColumnWidth1><ColumnWidth2>261</ColumnWidth2><ColumnWidth3>65</ColumnWidth3></Build>
+      <Find-in-Files>
+        
+        
+        
+      <ColumnWidth0>470</ColumnWidth0><ColumnWidth1>67</ColumnWidth1><ColumnWidth2>806</ColumnWidth2></Find-in-Files>
+    <Debug-Log><ColumnWidth0>20</ColumnWidth0><ColumnWidth1>1307</ColumnWidth1></Debug-Log><TerminalIO/></Static>
+    <Windows>
+      
+      
+    <Wnd0>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-12652-31284</Identity>
+            <TabName>Workspace</TabName>
+            <Factory>Workspace</Factory>
+            <Session>
+              
+            <NodeDict><ExpandedNode>RT8600S</ExpandedNode><ExpandedNode>RT8600S/Local</ExpandedNode><ExpandedNode>RT8600S/Local/main.c</ExpandedNode><ExpandedNode>RT8600S/Output</ExpandedNode><ExpandedNode>RT8600S/Peripheral</ExpandedNode><ExpandedNode>RT8600S/Software</ExpandedNode></NodeDict></Session>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd0><Wnd1>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-2196-31480</Identity>
+            <TabName>Build</TabName>
+            <Factory>Build</Factory>
+            <Session/>
+          </Tab>
+          <Tab>
+            <Identity>TabID-21289-1834</Identity>
+            <TabName>Find in Files</TabName>
+            <Factory>Find-in-Files</Factory>
+            <Session/>
+          </Tab>
+        <Tab><Identity>TabID-10289-11492</Identity><TabName>Debug Log</TabName><Factory>Debug-Log</Factory><Session/></Tab></Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd1></Windows>
+    <Editor>
+      
+      
+      
+      
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Application\src\AxisMotor.c</Filename><XPos>0</XPos><YPos>247</YPos><SelStart>6972</SelStart><SelEnd>6972</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Application\src\backaction.h</Filename><XPos>0</XPos><YPos>10</YPos><SelStart>564</SelStart><SelEnd>581</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Application\src\_3DFunction0.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>7973</SelStart><SelEnd>7973</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Application\src\_3DFunction1.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>7429</SelStart><SelEnd>7429</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Application\src\_3DFunction2.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>11771</SelStart><SelEnd>11771</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Application\src\autoFunction0.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Application\src\autoFunction1.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Application\src\autoFunction2.c</Filename><XPos>0</XPos><YPos>21</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Application\src\autoFunction3.c</Filename><XPos>0</XPos><YPos>21</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Application\src\autoFunction4.c</Filename><XPos>0</XPos><YPos>21</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Application\src\autoFunction5.c</Filename><XPos>0</XPos><YPos>21</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Application\src\Valve.c</Filename><XPos>0</XPos><YPos>951</YPos><SelStart>21018</SelStart><SelEnd>21018</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Application\src\main.c</Filename><XPos>0</XPos><YPos>14838</YPos><SelStart>494454</SelStart><SelEnd>494454</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Application\src\valve.h</Filename><XPos>0</XPos><YPos>204</YPos><SelStart>7306</SelStart><SelEnd>7306</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Application\src\main.h</Filename><XPos>0</XPos><YPos>158</YPos><SelStart>4928</SelStart><SelEnd>4928</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Application\src\Data_Cul.c</Filename><XPos>0</XPos><YPos>76</YPos><SelStart>1567</SelStart><SelEnd>1567</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Application\src\Data_Cul.h</Filename><XPos>0</XPos><YPos>16</YPos><SelStart>680</SelStart><SelEnd>680</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Application\src\system.c</Filename><XPos>0</XPos><YPos>33</YPos><SelStart>971</SelStart><SelEnd>971</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Application\src\ControlBox.h</Filename><XPos>0</XPos><YPos>57</YPos><SelStart>2222</SelStart><SelEnd>2222</SelEnd></Tab><ActiveTab>18</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Application\src\memory.h</Filename><XPos>0</XPos><YPos>18</YPos><SelStart>1165</SelStart><SelEnd>1165</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Application\src\AutoFunctionStretch.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>673</SelStart><SelEnd>673</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Application\src\AxisMotor.h</Filename><XPos>0</XPos><YPos>35</YPos><SelStart>1396</SelStart><SelEnd>1407</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Positions>
+      
+      
+      
+      
+      
+    <Top><Row0><Sizes><Toolbar-05955b00><key>iaridepm.enu1</key></Toolbar-05955b00></Sizes></Row0><Row1><Sizes/></Row1></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>386</Bottom><Right>175</Right><x>-2</x><y>-2</y><xscreen>5</xscreen><yscreen>109</yscreen><sizeHorzCX>3720</sizeHorzCX><sizeHorzCY>165152</sizeHorzCY><sizeVertCX>131696</sizeVertCX><sizeVertCY>587879</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>229</Bottom><Right>1346</Right><x>-2</x><y>-2</y><xscreen>1348</xscreen><yscreen>231</yscreen><sizeHorzCX>1002976</sizeHorzCX><sizeHorzCY>350000</sizeHorzCY><sizeVertCX>3720</sizeVertCX><sizeVertCY>165152</sizeVertCY></Rect></Wnd1></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+  </Desktop>
+</Workspace>
+
+
