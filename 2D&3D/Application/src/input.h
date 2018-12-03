@@ -62,11 +62,11 @@
 #define LEGSTRETCH_SWITCH_ON	0			
 #define LEGSTRETCH_SWITCH_OFF	1
 
-#define LEGGROUND_SWITCH_ON	0 //碰到地面了		
-#define LEGGROUND_SWITCH_OFF	1 //未碰到地面，处于悬空状态		
+#define LEGGROUND_SWITCH_ON	1 //碰到地面了		
+#define LEGGROUND_SWITCH_OFF	0 //未碰到地面，处于悬空状态		
 
-#define LEGANGLE_SWITCH_ON	1 //小腿托盘与垂直线的角度超小于15度时，已经到了危险角度，不能再先前延伸
-#define LEGANGLE_SWITCH_OFF	0 //小腿托盘与垂直线的角度超大于15度时，可以向前延伸
+#define LEGANGLE_SWITCH_ON	0 //小腿托盘与垂直线的角度超小于15度时，已经到了危险角度，不能再先前延伸
+#define LEGANGLE_SWITCH_OFF	1 //小腿托盘与垂直线的角度超大于15度时，可以向前延伸
 
 #define FOOT_SWITCH_ON		0 //碰到脚了
 #define FOOT_SWITCH_OFF		1
