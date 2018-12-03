@@ -31,6 +31,10 @@
 #define BACK_SUB_MODE_AUTO_3			3 //酸痛改善
 #define BACK_SUB_MODE_AUTO_4			4 //颈肩自动
 #define BACK_SUB_MODE_AUTO_5			5 //背腰自动
+#define BACK_SUB_MODE_AUTO_6			11//6//20   			examine 
+#define BACK_SUB_MODE_AUTO_7			12//7//21   			hip-up
+#define BACK_SUB_MODE_AUTO_8			13//8//22  				golfer
+
 
 #define BACK_SUB_MODE_3D1                6//       17  
 #define BACK_SUB_MODE_3D2                7//       18  

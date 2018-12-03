@@ -423,6 +423,9 @@ __no_init st_AirBag   st_AirBagAuto,st_AirBagArmSholderBackWaist, st_AirBagModeL
 #define AUTO_FUNCTION_4_STEPS	sizeof(AutoFunction4)/sizeof(struct Walk_Knead_Knock_Motor_Struct_Auto)
 #define AUTO_FUNCTION_5_STEPS	sizeof(AutoFunction5)/sizeof(struct Walk_Knead_Knock_Motor_Struct_Auto)
 
+#define AUTO_FUNCTION_11_STEPS	sizeof(AutoFunction6)/sizeof(struct Walk_Knead_Knock_Motor_Struct_Auto)
+#define AUTO_FUNCTION_12_STEPS	sizeof(AutoFunction7)/sizeof(struct Walk_Knead_Knock_Motor_Struct_Auto)
+#define AUTO_FUNCTION_13_STEPS	sizeof(AutoFunction8)/sizeof(struct Walk_Knead_Knock_Motor_Struct_Auto)
 
 
 
@@ -2765,6 +2768,15 @@ void Main_BackProce(void)
           case BACK_SUB_MODE_AUTO_5:
             AutoDirector = AutoFunction5[nCurActionStep] ;
             break;
+		  case BACK_SUB_MODE_AUTO_6:
+            AutoDirector = AutoFunction6[nCurActionStep] ;
+            break;
+		  case BACK_SUB_MODE_AUTO_7:
+            AutoDirector = AutoFunction7[nCurActionStep] ;
+            break;
+		  case BACK_SUB_MODE_AUTO_8:
+            AutoDirector = AutoFunction8[nCurActionStep] ;
+            break;
           case BACK_SUB_MODE_3D1:
             AutoDirector = _3DFunction0[nCurActionStep] ;
             break ;
@@ -2885,6 +2897,15 @@ void Main_BackProce(void)
                   break ;
                 case BACK_SUB_MODE_AUTO_5:
                   AutoDirector = AutoFunction5[nCurActionStep] ;bWalkSlowFlag = 0;
+                  break;
+				case BACK_SUB_MODE_AUTO_6:
+                  AutoDirector = AutoFunction6[nCurActionStep] ;bWalkSlowFlag = 0;
+                  break;
+				case BACK_SUB_MODE_AUTO_7:
+                  AutoDirector = AutoFunction7[nCurActionStep] ;bWalkSlowFlag = 0;
+                  break;
+				case BACK_SUB_MODE_AUTO_8:
+                  AutoDirector = AutoFunction8[nCurActionStep] ;bWalkSlowFlag = 0;
                   break;
 	       
 						
@@ -10377,19 +10398,21 @@ void Main_WaitCommand(void)
               nBackSubRunMode = BACK_SUB_MODE_AUTO_5;
 	       //RockFunctionEnable(false);
               break ;         
-	      
-	      
-	    case H10_KEY_CHAIR_AUTO_EXAMINEE :
-
-	      break;
-	      
-	    case  H10_KEY_CHAIR_AUTO_HIGH_UP:
-
-	      break;
-	      
-	     case H10_KEY_CHAIR_AUTO_GOLFER :
-
-	      break;
+	        case H10_KEY_CHAIR_AUTO_6:                //总裁养身
+               nChairRunState = CHAIR_STATE_RUN ;
+               nBackMainRunMode = BACK_MAIN_MODE_AUTO;
+               nBackSubRunMode = BACK_SUB_MODE_AUTO_6;
+              break ;
+            case H10_KEY_CHAIR_AUTO_7:                   //女王纤体
+               nChairRunState = CHAIR_STATE_RUN ;
+               nBackMainRunMode = BACK_MAIN_MODE_AUTO;
+               nBackSubRunMode = BACK_SUB_MODE_AUTO_7;
+              break ;
+            case H10_KEY_CHAIR_AUTO_8:                   //心灵spa
+               nChairRunState = CHAIR_STATE_RUN ;
+               nBackMainRunMode = BACK_MAIN_MODE_AUTO;
+               nBackSubRunMode = BACK_SUB_MODE_AUTO_8;
+              break ;
 	   case  H10_KEY_CHAIR_AUTO_9 :
 
 	      break;
@@ -12506,16 +12529,60 @@ void Main_Work(void)
           nBuzzerMode = BUZZER_MODE_ONETIME ;
           bSendBuzzerMode = TRUE ;    
           break;     
-        
-	  
-       case H10_KEY_CHAIR_AUTO_EXAMINEE:
-          
-           
-          break;      
-	/////////////////////////////////////////////
-	case H10_KEY_CHAIR_AUTO_GOLFER  :
-	
-          break;        
+        case H10_KEY_CHAIR_AUTO_6:
+            //SingleLine_Play(4,1);  //暂停
+            if(nBackSubRunMode == BACK_SUB_MODE_AUTO_6)  break;
+            nBackMainRunMode = BACK_MAIN_MODE_AUTO;
+            nBackSubRunMode = BACK_SUB_MODE_AUTO_6;
+            Main_Start_Auto(); 
+            if(BodyDetectStep != DETECT_FINISH)
+            {
+                BodyDetectStep = DETECT_INITIAL;
+            }
+            st_Stretch.active = FALSE;
+            st_GrowthStretch.active = false;
+            //RockFunctionEnable(false);
+            //bZero_ShowFlag = 0;
+            Data_Set_Start(1, w_PresetTime);
+            nBuzzerMode = BUZZER_MODE_ONETIME ;
+            bSendBuzzerMode = TRUE ;    
+            break; 
+        case H10_KEY_CHAIR_AUTO_7:
+            //SingleLine_Play(4,1);  //暂停
+            if(nBackSubRunMode == BACK_SUB_MODE_AUTO_7)  break;
+            nBackMainRunMode = BACK_MAIN_MODE_AUTO;
+            nBackSubRunMode = BACK_SUB_MODE_AUTO_7;
+            Main_Start_Auto(); 
+            if(BodyDetectStep != DETECT_FINISH)
+            {
+                BodyDetectStep = DETECT_INITIAL;
+            }
+            st_Stretch.active = FALSE;
+            st_GrowthStretch.active = false;
+            //RockFunctionEnable(false);
+            //bZero_ShowFlag = 0;
+            Data_Set_Start(1, w_PresetTime);
+            nBuzzerMode = BUZZER_MODE_ONETIME ;
+            bSendBuzzerMode = TRUE ;    
+            break; 
+        case H10_KEY_CHAIR_AUTO_8:
+            //SingleLine_Play(4,1);  //暂停
+            if(nBackSubRunMode == BACK_SUB_MODE_AUTO_8)  break;
+            nBackMainRunMode = BACK_MAIN_MODE_AUTO;
+            nBackSubRunMode = BACK_SUB_MODE_AUTO_8;
+            Main_Start_Auto(); 
+            if(BodyDetectStep != DETECT_FINISH)
+            {
+                BodyDetectStep = DETECT_INITIAL;
+            }
+            st_Stretch.active = FALSE;
+            st_GrowthStretch.active = false;
+            //RockFunctionEnable(false);
+            //bZero_ShowFlag = 0;
+            Data_Set_Start(1, w_PresetTime);
+            nBuzzerMode = BUZZER_MODE_ONETIME ;
+            bSendBuzzerMode = TRUE ;    
+            break;      
 	  
 	case H10_KEY_CHAIR_AUTO_9  ://care
 	 

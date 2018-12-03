@@ -31,20 +31,19 @@
 #define H10_KEY_CHAIR_AUTO_3	      0x13 //À·Õ¥∏ƒ…∆ refresh
 #define H10_KEY_CHAIR_AUTO_4          0x14
 #define H10_KEY_CHAIR_AUTO_5          0x15
+
 #define H10_KEY_CHAIR_UP_BACK         H10_KEY_CHAIR_AUTO_4 
 #define H10_KEY_CHAIR_DOWN_BACK	      H10_KEY_CHAIR_AUTO_5
 #define H10_KEY_NECK_SHOULDER_AUTO    H10_KEY_CHAIR_UP_BACK
 #define H10_KEY_BACK_WAIST_AUTO       H10_KEY_CHAIR_DOWN_BACK
 
-#define  H10_KEY_CHAIR_AUTO_EXAMINEE                   0X16
-#define H10_KEY_CHAIR_AUTO_HIGH_UP                     0X17
+#define H10_KEY_CHAIR_AUTO_6          0x16
+#define H10_KEY_CHAIR_AUTO_7          0x17
+#define H10_KEY_CHAIR_AUTO_8          0x18
 
-#define H10_KEY_CHAIR_AUTO_GOLFER                     0X18
 
 #define H10_KEY_CHAIR_AUTO_9				0x19 //care 
-
 #define H10_KEY_CHAIR_AUTO_10                           0x1A //growth
-
 #define H10_KEY_CHAIR_QUICK_FULL			0x06 //quick full
 #define H10_KEY_CHAIR_QUICK_SHOULDER	    0x07 //quick shoulder
 #define H10_KEY_CHAIR_QUICK_WAIST			0x08 //quick back
