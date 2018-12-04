@@ -77,6 +77,7 @@ unsigned char  pressstep;
 unsigned int presstime;
 
 unsigned char  _2D_FLAG;
+unsigned char nStretchVigor;//3档拉筋标志位
 
 
 //增加quick程序
@@ -6177,7 +6178,7 @@ OutBuffer[15] =0;
 	  else 
 	  OutBuffer[15] &= 0X6f; 
 		 
-     
+      OutBuffer[15] |= nStretchVigor<<5;
 	  
       OutBuffer[16] = EOI;
 
@@ -6977,6 +6978,7 @@ void Main_Initial_Data(void)
           
     UartLeg_init_data();
     
+    nStretchVigor=1; //默认拉筋是1档
             //bAngleNoChangeProcess = FALSE;
       //bAngleNoChangeCMD = FALSE; 
       
@@ -10549,6 +10551,24 @@ void Main_WaitCommand(void)
               bSendBuzzerMode = TRUE ;
 			break;
 /***********************以上新增*************************/
+				/**********************************三挡拉筋控制开始**********************/
+			case H10_KEY_STRETCH_VIGOR1:
+				nStretchVigor =1;
+				nBuzzerMode = BUZZER_MODE_ONETIME ;
+				bSendBuzzerMode = TRUE ;
+				break;
+			case H10_KEY_STRETCH_VIGOR2:
+				nStretchVigor=2;
+				nBuzzerMode = BUZZER_MODE_ONETIME ;
+				bSendBuzzerMode = TRUE ;
+				break;			
+			case H10_KEY_STRETCH_VIGOR3:
+				nStretchVigor=3;
+				nBuzzerMode = BUZZER_MODE_ONETIME ;
+				bSendBuzzerMode = TRUE ;
+				break;		 
+				/**********************************三挡拉筋控制结束**********************/
+
             case  H10_KEY_3D_STRENGTH:    
               break;
               /*
@@ -12749,6 +12769,24 @@ if(nBackSubRunMode == BACK_SUB_MODE_3D2)  break;
 	    st_Stretch.active = FALSE;  // 按零重力按键 停止拉伸
 	  break;
 /***********************以上新增*************************/
+		  /**********************************三挡拉筋控制开始**********************/
+	  case H10_KEY_STRETCH_VIGOR1:
+		  nStretchVigor =1;
+		  nBuzzerMode = BUZZER_MODE_ONETIME ;
+		  bSendBuzzerMode = TRUE ;
+		  break;
+	  case H10_KEY_STRETCH_VIGOR2:
+		  nStretchVigor=2;
+		  nBuzzerMode = BUZZER_MODE_ONETIME ;
+		  bSendBuzzerMode = TRUE ;
+		  break;		  
+	  case H10_KEY_STRETCH_VIGOR3:
+		  nStretchVigor=3;
+		  nBuzzerMode = BUZZER_MODE_ONETIME ;
+		  bSendBuzzerMode = TRUE ;
+		  break;	   
+		  /**********************************三挡拉筋控制结束**********************/
+
         case  H10_KEY_3D_STRENGTH:     
           if((nBackMainRunMode == BACK_MAIN_MODE_MANUAL) || (nBackMainRunMode == BACK_MAIN_MODE_AUTO))
           {

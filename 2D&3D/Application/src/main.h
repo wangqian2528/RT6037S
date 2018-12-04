@@ -125,6 +125,8 @@
 //------------------------------------------------------------
 
 
+#define BACK_MOTOR_MAX_LOCATION 660
+#define MASSAGE_BACK_STRCHUP_LOCATION  300//1100
 
 
 

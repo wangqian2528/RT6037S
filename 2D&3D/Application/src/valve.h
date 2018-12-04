@@ -340,6 +340,10 @@ void Valve_SetStretchHoldHeelOFF(void);
 void Valve_SetStretchHoldHeelSCONDOFF(void);
 unsigned char Valve_GetLegKneadSpeed(void);
 void Valve_SetLegKneadSpeed(unsigned char speed);
+void Valve_SetStretchCharge_ARM(unsigned int start);
+void Valve_SetStretchCharge_FOOT(unsigned int start);
+void Valve_SetStretchCharge_FOOT_THIGH(unsigned int start);
+void Valve_SetStretchCharge_FOOT_LEG_SHOULD(unsigned int start);
 
 void Valve_10ms_Int(void);
 void ManalRollerMode_Reset(void);

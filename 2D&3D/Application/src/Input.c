@@ -771,6 +771,10 @@ void Input_SetBackMotorPosition(unsigned int Position)
 	nCurBackLocate = Position;
 }
 
+void BackMotor_Set_Location(unsigned short locate)
+{
+   nCurBackLocate = locate;
+}
 
 
 

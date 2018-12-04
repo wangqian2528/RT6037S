@@ -2084,3 +2084,167 @@ int Valve_RollerIsAuto(void)
  return (bAutoRoller) ;
 }
 
+
+
+void Valve_SetStretchCharge_ARM(unsigned int start)
+{
+    Valve_BodyUpAirPumpACPowerOn();
+    Valve_LegFootAirPumpACPowerOn();
+    static int step = 0;
+    switch(step)
+    {
+    case 0: 
+        bLeftArmUpAirBagValve1    =  VALVE_OFF ; //手肘左右气囊
+        bLeftArmUpAirBagValve2    =  VALVE_OFF ; 
+        bLeftArmUpAirBagValve3    =  VALVE_OFF ; //手掌左右气囊 	  
+        bRightArmUpAirBagValve1   =  VALVE_OFF ; 
+        bRightArmUpAirBagValve2   =  VALVE_OFF ;
+        bRightArmUpAirBagValve3   =  VALVE_OFF ;
+        if(SholderTime > 200)
+        {
+            step++;
+            SholderTime = 0;
+        }
+        break;
+    case 1: 
+        bLeftArmUpAirBagValve1    =  VALVE_OFF ; 	 
+        bLeftArmUpAirBagValve2    =  VALVE_OFF ; 
+        bLeftArmUpAirBagValve3    =  VALVE_OFF ;
+        bRightArmUpAirBagValve1   =  VALVE_ON ; //右边两个气囊开       
+        bRightArmUpAirBagValve2   =  VALVE_ON ;
+        bRightArmUpAirBagValve3   =  VALVE_ON ;
+        //SholderTime = 0;
+        //step++;
+        if(SholderTime > 300)
+        {
+            step++;
+            SholderTime = 0;
+        }
+        break;
+    case 2: 
+        bLeftArmUpAirBagValve1    =  VALVE_ON ; 	 
+        bLeftArmUpAirBagValve2    =  VALVE_ON ; 
+        bLeftArmUpAirBagValve3    =  VALVE_ON ;
+        bRightArmUpAirBagValve1   =  VALVE_OFF ;        
+        bRightArmUpAirBagValve2   =  VALVE_OFF ;
+        bRightArmUpAirBagValve3   =  VALVE_OFF ;
+        //SholderTime = 0;
+        //step++;
+        if(SholderTime > 300)
+        {
+            step = 1;
+            SholderTime = 0;
+        }
+        break;   
+    default:
+        step =0;
+        SholderTime =0;
+        bLeftThighAirBagValve   =  VALVE_OFF ;
+        bRightThighAirBagValve 	=  VALVE_OFF ; 
+        break;  
+    }
+    //小腿气囊
+    //bLegLeftAirBagValve  = VALVE_OFF;		
+    //bLegRightAirBagValve = VALVE_OFF;   
+    //足部气囊
+    bRightFootAirBagValve = VALVE_OFF;
+    bLeftFootAirBagValve = VALVE_OFF;
+    bFootHeelAirBagValve = VALVE_OFF;
+    //大腿气囊
+    bLeftThighAirBagValve       =  VALVE_OFF ;
+    bRightThighAirBagValve 	=  VALVE_OFF ;  
+    //胳膊气囊
+    bLeftSholderAirBagValve   =  VALVE_OFF ;
+    bRightSholderAirBagValve  =  VALVE_OFF ;
+    //背腰气囊 
+    //bhand_elbow_lAirBagValve   =  VALVE_OFF ; 	 
+    //bhand_palm_lAirBagValve    =  VALVE_OFF ;  	  
+    //bhand_palm_rAirBagValve    =  VALVE_OFF ;        
+    //bhand_elbow_rAirBagValve   =  VALVE_OFF ;  
+}
+
+//打开脚部气囊
+void Valve_SetStretchCharge_FOOT(unsigned int start)
+{
+    Valve_BodyUpAirPumpACPowerOn();
+    Valve_LegFootAirPumpACPowerOn();
+    //小腿气囊
+    //egLeftAirBagValve = VALVE_OFF;
+    //egRightAirBagValve = VALVE_OFF;
+    //足部气囊
+    bRightFootAirBagValve = VALVE_ON;
+    bLeftFootAirBagValve = VALVE_ON;
+    bFootHeelAirBagValve = VALVE_OFF;
+    //大腿气囊
+    bLeftThighAirBagValve       =  VALVE_OFF ;
+    bRightThighAirBagValve 	=  VALVE_OFF ;  
+    //胳膊气囊
+     bLeftArmUpAirBagValve1    =  VALVE_OFF ; //手肘左右气囊
+     bLeftArmUpAirBagValve2    =  VALVE_OFF ; 
+     bLeftArmUpAirBagValve3    =  VALVE_OFF ; //手掌左右气囊 	  
+     bRightArmUpAirBagValve1   =  VALVE_OFF ; 
+     bRightArmUpAirBagValve2   =  VALVE_OFF ;
+     bRightArmUpAirBagValve3   =  VALVE_OFF ;
+    //肩部气囊
+    bLeftSholderAirBagValve   =  VALVE_OFF ;
+    bRightSholderAirBagValve  =  VALVE_OFF ;
+    //背腰气囊
+    //    bBackWaistRightUp	  =  VALVE_OFF ;
+    //    bBackWaistRightDown   =  VALVE_OFF ;
+    //    bBackWaistLeftUp      =  VALVE_OFF ;  
+    //    bBackWaistLeftDown    =  VALVE_OFF ;
+}
+
+void Valve_SetStretchCharge_FOOT_THIGH(unsigned int start)
+{
+    Valve_BodyUpAirPumpACPowerOn();
+    Valve_LegFootAirPumpACPowerOn();
+    //臂肩气囊
+    //小腿气囊
+    //egLeftAirBagValve  = VALVE_ON;//VALVE_OFF;		
+    //egRightAirBagValve = VALVE_ON;//VALVE_OFF;              
+    //足部气囊
+    bRightFootAirBagValve = VALVE_ON;
+    bLeftFootAirBagValve = VALVE_ON;
+    bFootHeelAirBagValve = VALVE_OFF;
+    //大腿气囊    
+    bLeftThighAirBagValve       =  VALVE_OFF;//N ;//US003
+    bRightThighAirBagValve 	=  VALVE_OFF;//N ; //us003     
+    //胳膊气囊
+    bLeftSholderAirBagValve   =  VALVE_OFF ;
+    bRightSholderAirBagValve  =  VALVE_OFF ;
+    //背腰气囊   
+    bLeftArmUpAirBagValve1    =  VALVE_OFF ; 	 
+     bLeftArmUpAirBagValve2    =  VALVE_OFF ; 
+     bLeftArmUpAirBagValve3    =  VALVE_OFF ;
+     bRightArmUpAirBagValve1   =  VALVE_OFF ;        
+     bRightArmUpAirBagValve2   =  VALVE_OFF ;
+     bRightArmUpAirBagValve3   =  VALVE_OFF ; 
+}
+
+void Valve_SetStretchCharge_FOOT_LEG_SHOULD(unsigned int start)
+{
+    Valve_BodyUpAirPumpACPowerOn();
+    Valve_LegFootAirPumpACPowerOn();
+    //小腿气囊
+    //egLeftAirBagValve  = VALVE_ON;//VALVE_OFF;		
+    //egRightAirBagValve = VALVE_ON;//VALVE_OFF;              
+    //足部气囊
+    bRightFootAirBagValve = VALVE_ON;
+    bLeftFootAirBagValve = VALVE_ON;
+    bFootHeelAirBagValve = VALVE_OFF;
+    //大腿气囊
+    bLeftThighAirBagValve       =  VALVE_OFF ;
+    bRightThighAirBagValve 	=  VALVE_OFF ;  
+    //胳膊气囊
+    bLeftSholderAirBagValve   =  VALVE_ON ;
+    bRightSholderAirBagValve  =  VALVE_ON ;
+    //背腰气囊  
+    bLeftArmUpAirBagValve1    =  VALVE_OFF ; 	 
+     bLeftArmUpAirBagValve2    =  VALVE_OFF ; 
+     bLeftArmUpAirBagValve3    =  VALVE_OFF ;
+     bRightArmUpAirBagValve1   =  VALVE_OFF ;        
+     bRightArmUpAirBagValve2   =  VALVE_OFF ;
+     bRightArmUpAirBagValve3   =  VALVE_OFF ;  
+}
+

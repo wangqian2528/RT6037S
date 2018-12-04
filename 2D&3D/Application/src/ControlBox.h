@@ -49,6 +49,9 @@
 #define H10_KEY_CHAIR_QUICK_WAIST			0x08 //quick back
 #define H10_KEY_CHAIR_QUICK_LEG				0x09 //quick leg
 
+#define H10_KEY_STRETCH_VIGOR1                   0x0B
+#define H10_KEY_STRETCH_VIGOR2                   0x0C
+#define H10_KEY_STRETCH_VIGOR3                   0x0D
 
 //ZONE2:手动程序键值
 /**********************************************************/

@@ -32,6 +32,7 @@
 #define STATE_RUN_FLEX_MANUAL_OUT 4
 #define STATE_RUN_FLEX_TEST_OUT   5
 #define STATE_RUN_FLEX_STRETCH_OUT 6
+#define STATE_RUN_FLEX_STRETCH_RESET 7
 
 #define FLEX_RUN                0 //正常运行
 #define FLEX_STOP_AT_IN         1 //因为碰到最里面行程开关而停止
@@ -184,6 +185,7 @@ void Clear_Accident1_flag(void);
 unsigned char Get_CurAccident_flag(void);
 extern unsigned int Flex_In_Fault;
 void FlexMotor_100ms_Int(void);
+void nSet_StretchStopTime(unsigned int time);
 void nSet_StretchTime( unsigned char time);
 unsigned char  nGet_StretchTime( void);
 #endif

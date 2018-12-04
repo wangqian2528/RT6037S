@@ -15,7 +15,7 @@ unsigned int Flex_In_Fault;
 //static unsigned char nFlexDirection;
 //static unsigned char nFlexPower;
 //static unsigned char nFlexCurrent;
-static unsigned int Flex_In_Delay,nFlex_In_TimeStop;
+static unsigned int Flex_In_Delay,nFlex_In_TimeStop,nFlex_StretchIn_TimeStop;
 static bool b10msFlexinFalg,b100msFalg;
 extern bool bHaveMan;
 //static bool FlexMotorEnable = false;
@@ -342,7 +342,35 @@ unsigned char FlexMotor_Control(unsigned char nFinalFlexPadMotorState,unsigned c
     FlexMotor_In();
     
     break ;
-    
+  case STATE_RUN_FLEX_STRETCH_RESET:   
+        if(Input_GetFlexInSwitch() == REACH_FLEX_LIMIT || position == 1)
+        {
+            position = 1;
+            bPowerFlag = FALSE;
+            nRetVal = FLEX_STOP_AT_IN ;
+            FlexMotor_Break();
+            break;
+        }
+        if(nFlex_StretchIn_TimeStop  < 1300)
+        {
+            if(b100msFalg == true)
+            {
+                b100msFalg = false;
+                nFlex_StretchIn_TimeStop++;
+            }
+            if(nFlex_StretchIn_TimeStop >=1300)
+            {
+                Flex_In_Delay = 0;
+                bPowerFlag = FALSE;
+                nRetVal = FLEX_STOP_AT_FOOT ;
+                FlexMotor_Break();
+                break;
+            }
+        }
+        position = 0;
+        bPowerFlag = TRUE;
+        FlexMotor_In();
+        break ;   
   case STATE_RUN_FLEX_OUT:  //上行  自动向外
     if(Input_GetFlexOutSwitch() == REACH_FLEX_LIMIT || position == 2)
     {
@@ -399,89 +427,60 @@ unsigned char FlexMotor_Control(unsigned char nFinalFlexPadMotorState,unsigned c
     bPowerFlag = TRUE;nFlex_In_TimeStop = 0;
     break ;
     
-  case STATE_RUN_FLEX_STRETCH_OUT:  //上行  自动向外
-    if(Input_GetFlexOutSwitch() == REACH_FLEX_LIMIT || position == 2)
-    {
-      //140531
-      //Clear_Accident_flag() ;
-      
-      position = 2;
-      bPowerFlag = FALSE;
-      FlexMotor_Break();
-      nRetVal = FLEX_STOP_AT_OUT ;
-      break;
-    }
-    if(Input_GetFlexAngleSwitch() == LEGANGLE_SWITCH_ON)
-    { //小于15度
-      bPowerFlag = FALSE;
-      FlexMotor_Break();
-      nRetVal = FLEX_STOP_AT_ANGLE ;
-      break;
-    }
-    if(Input_GetFlexGroundSwitch() == LEGGROUND_SWITCH_ON)
-    { //碰到地面了
-      bPowerFlag = FALSE;
-      FlexMotor_Break();
-      nRetVal = FLEX_STOP_AT_GROUND;
-      break;
-    }
-    /*
-    if(Input_GetFlexFootSwitch() == FOOT_SWITCH_OFF)
-    {  //碰不到脚了
-    bPowerFlag = FALSE;
-    nRetVal = FLEX_STOP_AT_FOOT_LEAVE ;
-    FlexMotor_Break();
-    break;
-  }
-    */
-    if(Input_GetFlexFootSwitch() == FOOT_SWITCH_ON)
-    {  //碰不到脚了
-      //bPowerFlag = FALSE;
-      nRetVal = FLEX_STOP_AT_FOOT ;
-      //FlexMotor_Break();
-      //break;
-    } 
-    
-    /*if(bHaveMan == TRUE)
-    {
-      if((Input_GetFlexFootSwitch() == FOOT_SWITCH_OFF))//&&((w_Timer > w_Timer_OutTime)))
-      {  //碰不到脚了
-        bPowerFlag = FALSE;
-        nRetVal = FLEX_STOP_AT_FOOT_LEAVE ;
-        FlexMotor_Break();
-        break;
-      }
-    }
-    else*/
-    {
-      if(w_Timer > 40)
-      {  //碰不到脚了
-        bPowerFlag = FALSE;
-        nRetVal = FLEX_STOP_AT_FOOT_LEAVE ;
-        FlexMotor_Break();
-        break;
-      }
-    }
-    
-    
-    
-    /*   
-    if((Input_GetFlexFootSwitch() == FOOT_SWITCH_OFF))//&&((w_Timer > w_Timer_OutTime)))
-    {  //碰不到脚了
-    bPowerFlag = FALSE;
-    nRetVal = FLEX_STOP_AT_FOOT_LEAVE ;
-    FlexMotor_Break();
-    break;
-  }
-    */
-    
-    nFlex_In_TimeStop = 0;
-    //140603
-    //Timer_Counter_Clear(FLEX_TIME_CHANNEL) ;
-    position = 0;
-    FlexMotor_Out();
-    bPowerFlag = TRUE;nFlex_In_TimeStop = 0;
-    break ;
+case STATE_RUN_FLEX_STRETCH_OUT:  //向外运行，如果原来有脚向外运行到找不到脚停止，如果原来没脚向外运行2秒停止
+        if(Input_GetFlexOutSwitch() == REACH_FLEX_LIMIT || position == 2)
+        {
+            __NOP();
+            position = 2;
+            bPowerFlag = FALSE;
+            FlexMotor_Break();
+            nRetVal = FLEX_STOP_AT_OUT ;
+            break;
+        }
+        if(Input_GetFlexAngleSwitch() == LEGANGLE_SWITCH_ON)//小于15度
+        { 
+            bPowerFlag = FALSE;
+            FlexMotor_Break();
+            nRetVal = FLEX_STOP_AT_ANGLE ;
+            break;
+        }
+        if(Input_GetFlexGroundSwitch() == LEGGROUND_SWITCH_ON)//碰到地面了
+        { 
+            bPowerFlag = FALSE;
+            FlexMotor_Break();
+            nRetVal = FLEX_STOP_AT_GROUND;
+            break;
+        }
+        if(Input_GetFlexFootSwitch() == FOOT_SWITCH_ON)//碰到脚了
+        {  
+            nRetVal = FLEX_STOP_AT_FOOT ;
+        } 
+        if(bHaveMan == TRUE)
+        {
+            if((Input_GetFlexFootSwitch() == FOOT_SWITCH_OFF))//碰不到脚了
+            {  
+                bPowerFlag = FALSE;
+                nRetVal = FLEX_STOP_AT_FOOT_LEAVE ;
+                FlexMotor_Break();
+                break;
+            }
+        }
+        else
+        {
+            if(w_Timer > 20)
+            { 
+                bPowerFlag = FALSE;
+                nRetVal = 0x04 ;
+                FlexMotor_Break();
+                bPowerFlag = false;
+                break;
+            }
+        }
+        nFlex_In_TimeStop = 0;
+        position = 0;
+        FlexMotor_Out();
+        bPowerFlag = TRUE;
+        break ;
   case STATE_RUN_FLEX_MANUAL_OUT:  //小腿手动伸出
     if(Input_GetFlexOutSwitch() == REACH_FLEX_LIMIT )//|| position == 2)
     {
@@ -702,6 +701,10 @@ BYTE nGet_StretchTime( void)
   
 }
 
+void nSet_StretchStopTime(unsigned int time)
+{
+  nFlex_StretchIn_TimeStop = time;
+}
 
 
 

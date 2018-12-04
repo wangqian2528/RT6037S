@@ -120,7 +120,6 @@ unsigned int Input_GetFlexOutSwitch(void);
 unsigned int Input_GetFlexGroundSwitch(void);                 
 unsigned int Input_GetFlexAngleSwitch(void);
 unsigned int Input_GetFlexFootSwitch(void);
-
-
 bool Input_Get_Leg_Press_Status(void);
+void BackMotor_Set_Location(unsigned short locate);
 #endif /*__INPUT_H__*/
