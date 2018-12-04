@@ -31,16 +31,22 @@
 #define BACK_SUB_MODE_AUTO_3			3 //酸痛改善
 #define BACK_SUB_MODE_AUTO_4			4 //颈肩自动
 #define BACK_SUB_MODE_AUTO_5			5 //背腰自动
-#define BACK_SUB_MODE_AUTO_6			11//6//20   			examine 
-#define BACK_SUB_MODE_AUTO_7			12//7//21   			hip-up
-#define BACK_SUB_MODE_AUTO_8			13//8//22  				golfer
 
 
-#define BACK_SUB_MODE_3D1                6//       17  
-#define BACK_SUB_MODE_3D2                7//       18  
-#define BACK_SUB_MODE_3D3                8//       19  
-#define BACK_SUB_MODE_DEMO               9//      21  
-#define BACK_SUB_MODE_AUTO_5MIN_DEMO            10
+#define BACK_SUB_MODE_AUTO_6			7//6//20   			examine 
+#define BACK_SUB_MODE_AUTO_7			8//7//21   			hip-up
+#define BACK_SUB_MODE_AUTO_8			9//8//22  				golfer
+#define BACK_SUB_MODE_AUTO_9		        6//9//23  			 care
+#define BACK_SUB_MODE_AUTO_10			10//24     			growth
+
+
+
+#define BACK_SUB_MODE_3D1                15//
+#define BACK_SUB_MODE_3D2                16//        
+#define BACK_SUB_MODE_3D3                17// 
+
+#define BACK_SUB_MODE_DEMO               13//      
+#define BACK_SUB_MODE_AUTO_5MIN_DEMO            14
 
 /*
 #define BACK_SUB_MODE_AUTO_6			6//20   			examine 
