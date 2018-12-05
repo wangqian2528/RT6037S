@@ -2248,3 +2248,51 @@ void Valve_SetStretchCharge_FOOT_LEG_SHOULD(unsigned int start)
      bRightArmUpAirBagValve3   =  VALVE_OFF ;  
 }
 
+void Valve_SetStretchChargeSTEEL(unsigned int start)
+{
+    static int step = 0;
+    switch(step)
+    {
+    case 0:   	  
+        bFootHeelAirBagValve    =  VALVE_OFF ;        
+        if(SholderTime > 100)
+        {
+            step++;
+            SholderTime = 0;
+        }
+        break;
+    case 1:   	  
+        bFootHeelAirBagValve    =  VALVE_ON ;     
+        if(SholderTime > 300)
+        {step++;SholderTime = 0;}
+        break;   
+    default:
+        step =0;
+        SholderTime =0;  	  
+        bFootHeelAirBagValve    =  VALVE_OFF ;   
+        break;   
+    }
+    Valve_BodyUpAirPumpACPowerOn();
+    Valve_LegFootAirPumpACPowerOn();
+    //小腿气囊
+    //bLegLeftAirBagValve  = VALVE_ON;		
+    //bLegRightAirBagValve = VALVE_ON;              
+    //足部气囊
+    bRightFootAirBagValve = VALVE_ON;
+    bLeftFootAirBagValve = VALVE_ON;
+    //大腿气囊
+    bLeftThighAirBagValve       =  VALVE_OFF ;
+    bRightThighAirBagValve 	=  VALVE_OFF ;   
+
+    bLeftSholderAirBagValve   =  VALVE_ON ;
+    bRightSholderAirBagValve  =  VALVE_ON ;      
+    //手臂气囊  
+   bLeftArmUpAirBagValve1    =  VALVE_OFF ; 	 
+     bLeftArmUpAirBagValve2    =  VALVE_OFF ; 
+     bLeftArmUpAirBagValve3    =  VALVE_OFF ;
+     bRightArmUpAirBagValve1   =  VALVE_OFF ;        
+     bRightArmUpAirBagValve2   =  VALVE_OFF ;
+     bRightArmUpAirBagValve3   =  VALVE_OFF ; 
+}
+
+

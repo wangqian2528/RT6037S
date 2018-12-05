@@ -344,6 +344,7 @@ void Valve_SetStretchCharge_ARM(unsigned int start);
 void Valve_SetStretchCharge_FOOT(unsigned int start);
 void Valve_SetStretchCharge_FOOT_THIGH(unsigned int start);
 void Valve_SetStretchCharge_FOOT_LEG_SHOULD(unsigned int start);
+void Valve_SetStretchChargeSTEEL(unsigned int start);
 
 void Valve_10ms_Int(void);
 void ManalRollerMode_Reset(void);
