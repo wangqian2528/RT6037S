@@ -131,23 +131,23 @@
 
 extern BITS BITS_ValveData[3] ;
 #define bBackWaistRightUp		BITS_ValveData[0].bD0   //
-#define bBackWaistRightDown		BITS_ValveData[2].bD1//1右背部
+#define bBackWaistRightDown		BITS_ValveData[2].bD6 //1右背部 
 #define bRightThighAirBagValve		BITS_ValveData[0].bD2   //右大腿
 #define bLeftThighAirBagValve 		BITS_ValveData[0].bD3   //左大腿
 
-#define bRightSholderAirBagValve	BITS_ValveData[2].bD0//1右肩部
+#define bRightSholderAirBagValve	BITS_ValveData[2].bD7 //1右肩部 
 #define bBackWaistLeftUp		BITS_ValveData[0].bD5   //左背腰上面
-#define bBackWaistLeftDown		BITS_ValveData[2].bD5//1左背部
-#define bLeftSholderAirBagValve	       BITS_ValveData[2].bD4//1左肩部
+#define bBackWaistLeftDown		BITS_ValveData[2].bD2 //1左背部
+#define bLeftSholderAirBagValve	     BITS_ValveData[2].bD3  //1左肩部
 //气阀位变量定义
-#define bRightArmUpAirBagValve1     BITS_ValveData[2].bD3//1右手前
+#define bRightArmUpAirBagValve1     BITS_ValveData[2].bD4  //1右手前 
 #define bRightArmUpAirBagValve2     BITS_ValveData[0].bD1  //右胳膊中间----
-#define bRightArmUpAirBagValve3     BITS_ValveData[2].bD2//1右手后
+#define bRightArmUpAirBagValve3     BITS_ValveData[2].bD5 //1右手后 
 #define bValveData1NC0 	            BITS_ValveData[0].bD6  //空
 #define bValveData1NC1              BITS_ValveData[0].bD4  //空
-#define bLeftArmUpAirBagValve3      BITS_ValveData[2].bD6//1左手后
+#define bLeftArmUpAirBagValve3      BITS_ValveData[2].bD1 //1左手后
 #define bLeftArmUpAirBagValve2      BITS_ValveData[0].bD6  //左胳膊中间--
-#define bLeftArmUpAirBagValve1 	    BITS_ValveData[2].bD7//1左手前
+#define bLeftArmUpAirBagValve1 	    BITS_ValveData[2].bD0//1左手前
 /*
 #define bLeftArmUpAirBagValve1 	    BITS_ValveData[1].bD4  //左胳膊前面
 #define bLeftArmUpAirBagValve2      BITS_ValveData[1].bD5  //左胳膊中间
