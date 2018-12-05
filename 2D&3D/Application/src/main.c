@@ -78,6 +78,14 @@ unsigned int presstime;
 
 unsigned char  _2D_FLAG;
 unsigned char nStretchVigor;//3档拉筋标志位
+unsigned char upWalkRun,downWalkRun;
+unsigned char bkneadStep;
+unsigned int bkneadTime;
+unsigned char bkneadTimeFlag;
+bool bkneadStopTimeFlag;
+unsigned int bkneadStopTime;
+unsigned char KnockSlow_Flag;
+unsigned char KneadTimesCount,CycleCount;
 
 
 //增加quick程序
@@ -946,6 +954,7 @@ void KnockMotorControl(unsigned char nKnockMotorState,unsigned char nKnockingMot
 void KnockMotorControl(unsigned char nKnockMotorState,unsigned char nKnockingMotorRunTime,unsigned char nKnockingMotorStopTime)
 {
   static bool  bKnockMotorPowerFlag;
+  static unsigned char nKnockMotorStateTest;
 #ifdef  SELECT_3D
   if(nBackMainRunMode == BACK_MAIN_MODE_3D)
   {
@@ -1007,6 +1016,21 @@ void KnockMotorControl(unsigned char nKnockMotorState,unsigned char nKnockingMot
                     //WDOG_Feed();
                 }
                 break;
+			case KNOCK_PWM:
+              if(KnockSlow_Flag!=0)
+              {
+                
+                 nCurKneadKnockSpeed = 3;//nCurKneadKnockSpeed
+                 __NOP();
+                 if(nKnockMotorStateTest==5)  nCurKneadKnockSpeed = 3;
+              }
+              else
+              {
+                nCurKneadKnockSpeed = 1;
+              }
+              bKnockMotorPowerFlag = TRUE;
+              bKnockMotorInProcess = FALSE ;
+              break;
             case KNOCK_STOP:
                 bKnockMotorPowerFlag = FALSE ;
                 if(nCurActionStepCounter >= nKnockingMotorRunTime)
@@ -1212,6 +1236,251 @@ void KneadMotorControl(unsigned char nKneadMotorState,unsigned char nKneadMotorC
             nFinalKneadMotorState = STATE_IDLE ;
             bKneadMotorInProcess = FALSE ;
             break ;
+		case KNEAD_TOGGLE:  //揉捏方式2
+                switch(bkneadStep)
+                {
+                default:
+                case 0:
+                 if(bHasKneadWidthMedPulse == TRUE)
+                  {
+                      bHasKneadWidthMedPulse = FALSE ;
+                      if(Input_GetKneadMid() == 0)
+                      {  
+                          nCurKneadWidth = KNEAD_WIDTH_MED ;
+                          nFinalKneadMotorState = STATE_IDLE ;
+                          bkneadStep = 1;
+                      }                    
+                  }
+                  else
+                  {
+                      nCurKneadWidth = KNEAD_WIDTH_UNKNOWN ;
+                      nFinalKneadMotorState = STATE_RUN_UNCLOCK ;
+                  }
+                  break;
+                 case 1:
+                   upWalkRun = TRUE;
+                   bkneadTimeFlag = TRUE;
+                   nCurKneadWidth = KNEAD_WIDTH_UNKNOWN ;
+                   nFinalKneadMotorState = STATE_RUN_UNCLOCK ;
+                   if(bkneadTime >= 130)
+                   {
+                     upWalkRun = FALSE;
+                     bkneadTimeFlag = FALSE;
+                     nCurKneadWidth = KNEAD_WIDTH_UNKNOWN ;
+                     nFinalKneadMotorState = STATE_IDLE ;
+                     bkneadStopTimeFlag = TRUE;
+                     if(bkneadStopTime >= 6)
+                     {
+                       bkneadTime = 0;
+                       bkneadStopTime = 0;
+                       bkneadStopTimeFlag = FALSE;
+                       bkneadStep = 2;
+                     }
+                   }
+                  break;
+                case 2:
+                  downWalkRun = TRUE;
+                  if(bHasKneadWidthMedPulse == TRUE)
+                  {
+                      bHasKneadWidthMedPulse = FALSE ;
+                      if(Input_GetKneadMid() == 0)
+                      {  
+                          downWalkRun = FALSE;
+                          nCurKneadWidth = KNEAD_WIDTH_MED ;
+                          nFinalKneadMotorState = STATE_IDLE ;
+                          bkneadStep = 3;
+                       }                    
+                  }
+                  else
+                  {
+                      nCurKneadWidth = KNEAD_WIDTH_UNKNOWN ;
+                      nFinalKneadMotorState = STATE_RUN_CLOCK ;
+                  }
+                  break;
+              case 3:
+                bkneadStopTimeFlag = TRUE;
+                if(bkneadStopTime >= 6)
+                {
+                   bkneadStopTime = 0;
+                   bkneadStopTimeFlag = FALSE;
+                   bkneadStep = 1;
+                   CycleCount++;
+                   if(CycleCount >= nKneadMotorCycles)
+                   {
+                      bkneadStep = 0;
+                      CycleCount = 0;
+                      bKneadMotorInProcess = FALSE ;
+                   }
+                 }  
+                 break;
+                }
+                break;
+		case KNEAD_RUBBING:
+          switch(bkneadStep)
+          {
+          default:
+          case 0:
+            KnockSlow_Flag = 1;
+            if(bHasKneadWidthMinPulse == TRUE)
+            {
+                bHasKneadWidthMinPulse = FALSE ;
+                if(Input_GetKneadMin() == 0)
+                {  
+                    nCurKneadWidth = KNEAD_WIDTH_MIN ;
+                    nFinalKneadMotorState = STATE_IDLE ;
+                    bkneadStep = 1;
+                }                    
+            }
+            else
+            {
+                nCurKneadWidth = KNEAD_WIDTH_UNKNOWN ;
+                nFinalKneadMotorState = STATE_RUN_UNCLOCK ;
+            }
+            break;
+            case 1:
+            if(bHasKneadWidthMedPulse == TRUE)
+            {
+                bHasKneadWidthMedPulse = FALSE ;
+                if(Input_GetKneadMid() == 0)
+                {  
+                    nCurKneadWidth = KNEAD_WIDTH_MED ;
+                    bkneadStep = 2;
+                }                    
+            }
+            else
+            {
+                nCurKneadWidth = KNEAD_WIDTH_UNKNOWN ;
+                nFinalKneadMotorState = STATE_RUN_CLOCK ;
+            }
+            break;
+            case 2:
+            KnockSlow_Flag = 0;
+            if(bHasKneadWidthMaxPulse == TRUE)
+            {
+                bHasKneadWidthMaxPulse = FALSE ;
+                if(Input_GetKneadMax() == 0)
+                {  
+                    nCurKneadWidth = KNEAD_WIDTH_MAX ;
+                    nFinalKneadMotorState = STATE_IDLE ;
+                    bkneadStep = 3;
+                }                    
+            }
+            else
+            {
+                nCurKneadWidth = KNEAD_WIDTH_UNKNOWN ;
+                nFinalKneadMotorState = STATE_RUN_CLOCK ;
+            }
+            break;
+            case 3:
+            if(bHasKneadWidthMedPulse == TRUE)
+            {
+                bHasKneadWidthMedPulse = FALSE ;
+                if(Input_GetKneadMid() == 0)
+                {  
+                    nCurKneadWidth = KNEAD_WIDTH_MED ;
+                    nFinalKneadMotorState = STATE_IDLE ;
+                    CycleCount++;
+                    if(CycleCount>nKneadMotorCycles)
+                    {
+                      bKneadMotorInProcess = FALSE ;
+                      CycleCount = 0;
+                    }
+                    
+                    bkneadStep = 0;
+                }                    
+            }
+            else
+            {
+                nCurKneadWidth = KNEAD_WIDTH_UNKNOWN ;
+                nFinalKneadMotorState = STATE_RUN_UNCLOCK ;
+            }
+            break;
+          }
+          break;
+		case KNEAD_FITFUL:  //揉捏方式1--断续揉捏
+          switch(bkneadStep)
+          {
+          default:
+          case 0:
+           if(bHasKneadWidthMedPulse == TRUE)
+            {
+                bHasKneadWidthMedPulse = FALSE ;
+                if(Input_GetKneadMid() == 0)
+                {  
+                    bkneadStep = 1;
+                    nCurKneadWidth = KNEAD_WIDTH_MED ;
+                    nFinalKneadMotorState = STATE_IDLE ;
+
+                }                    
+            }
+            else
+            {
+                nCurKneadWidth = KNEAD_WIDTH_UNKNOWN ;
+                nFinalKneadMotorState = STATE_RUN_UNCLOCK ;
+            }
+            break;
+          case 1:
+             nCurKneadWidth = KNEAD_WIDTH_UNKNOWN ;
+             nFinalKneadMotorState = STATE_RUN_UNCLOCK ;
+             bkneadTimeFlag = TRUE;
+             upWalkRun = TRUE;
+             if(bkneadTime >= 130)
+             {
+               upWalkRun = FALSE;
+               bkneadTimeFlag = FALSE;
+               nCurKneadWidth = KNEAD_WIDTH_UNKNOWN ;
+               nFinalKneadMotorState = STATE_IDLE ;
+               bkneadStopTimeFlag = TRUE;
+               if(bkneadStopTime >= 6)
+               {
+                 bkneadTime = 0;
+                 bkneadStopTime = 0;
+                 bkneadStopTimeFlag = FALSE;
+                 bkneadStep = 2;
+               }
+             }
+             break;
+          case 2:
+            downWalkRun = TRUE;
+            if(bHasKneadWidthMedPulse == TRUE)
+            {
+                bHasKneadWidthMedPulse = FALSE ;
+                if(Input_GetKneadMid() == 0)
+                {  
+                    nCurKneadWidth = KNEAD_WIDTH_MED ;
+                    nFinalKneadMotorState = STATE_IDLE ;
+                    bkneadStep = 3;
+                    downWalkRun = FALSE;
+                }                    
+            }
+            else
+            {
+                nCurKneadWidth = KNEAD_WIDTH_UNKNOWN ;
+                nFinalKneadMotorState = STATE_RUN_UNCLOCK ;
+            }
+            break;
+          case 3:
+            nCurKneadWidth = KNEAD_WIDTH_MED ;
+            nFinalKneadMotorState = STATE_IDLE ;
+            bkneadStopTimeFlag = TRUE;
+            if(bkneadStopTime >= 6)
+            {
+              bkneadStopTimeFlag = FALSE;
+              bkneadStopTime = 0;
+              bkneadStep = 1;
+              CycleCount++;
+              if(CycleCount >= nKneadMotorCycles)
+              {
+                CycleCount = 0;
+                bKneadMotorInProcess = FALSE ;
+                bkneadStep = 0;
+              }          
+            }
+            break;
+          
+
+          }
+          break;
         case KNEAD_STOP_AT_MIN:
             if(nCurKneadWidth == KNEAD_WIDTH_MIN)
             {
@@ -2197,7 +2466,9 @@ unsigned char WalkMotorControl(unsigned char nWalkMotorLocateMethod,unsigned sho
             //x5=nFinalWalkMotorLocate;
             break ;          
           
-          
+        case WALK_DEC_PULSE:
+           nFinalWalkMotorLocate = nWalkMotorLocateParam ; 
+        break;  
           
           
           
@@ -2210,19 +2481,31 @@ unsigned char WalkMotorControl(unsigned char nWalkMotorLocateMethod,unsigned sho
     }//end if
     
     //以下判断 walk 行程（bWalkMotorInProcess）何时停止 
-    
-    if(nWalkMotorLocateMethod == WALK_LOCATE_PARK)
-    { //判断是否到达停留时间
-        WalkMotor_Control(STATE_WALK_IDLE,0);
+      switch(nWalkMotorLocateMethod)
+    {
+      case WALK_LOCATE_PARK:
+	    WalkMotor_Control(STATE_WALK_IDLE,0);
         if((nWalkMotorLocateParam != MAX_PARK_TIME) && 
            (nCurActionStepCounter >= nWalkMotorLocateParam))
         {
             bWalkMotorInProcess = FALSE ;
         }
-    }
-    else
-    {
-        if(nFinalWalkMotorLocate == 0)  //行程最终位置为0
+	  break;
+	  case RUN_UP_DOWN:
+        if(WalkMotor_Control(UP_DOWN_WALK,0))
+        {
+           bWalkMotorInProcess = FALSE ;
+        }
+      break;
+	  case WALK_DEC_PULSE:
+       if(WalkMotor_Control(WALK_DOWN_PULSE,nFinalWalkMotorLocate))
+       {
+          bWalkMotorInProcess = FALSE ;
+       }
+      break;
+
+	  default:
+		if(nFinalWalkMotorLocate == 0)  //行程最终位置为0
         {
             if(WalkMotor_Control(STATE_RUN_WALK_DOWN,0))
             {
@@ -2243,7 +2526,8 @@ unsigned char WalkMotorControl(unsigned char nWalkMotorLocateMethod,unsigned sho
                 bWalkMotorInProcess = FALSE ;
             }
         }
-    }
+		break;
+    }  
     return 0;
 }
 

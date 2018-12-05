@@ -41,6 +41,11 @@ unsigned int sysCounter=0;
 unsigned char n3Dtime;
 unsigned int n3Dtimecount;
 
+extern unsigned int bkneadTime;
+extern unsigned char bkneadTimeFlag;
+extern bool bkneadStopTimeFlag;
+extern unsigned int bkneadStopTime;
+
 
 //extern unsigned long by_moni_cmd_tm;
 
@@ -217,6 +222,11 @@ void SysTick_Handler(void)
         Valve_10ms_Int();
          UartLeg_10msInt();
         FlexMotor_10ms_Int();//add20170427
+
+		if(bkneadTimeFlag)
+        {
+          bkneadTime++;
+        }
     }                          
     else ++by_Time10ms;
     
@@ -247,7 +257,11 @@ void SysTick_Handler(void)
         Timer_Flag_100ms_Int();
         FlexMotor_100ms_Int();
 	
-        
+        if(bkneadStopTimeFlag)
+        {
+          bkneadStopTime++;
+        }
+		
         main_100ms_int();//100ms上传手控器一次 数据给
         
 	 //if(by_moni_cmd_tm>1)by_moni_cmd_tm--;   // 减到1不减。

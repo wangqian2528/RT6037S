@@ -85,7 +85,13 @@
 
 #define BACK_SUB_MODE_FULL_AIRBAG        36//       20  
 
+//2018 12/4
+#define RUN_UP_DOWN                        79
+#define WALK_DEC_PULSE                     81
 
+#define KNEAD_RUBBING                   22
+#define KNEAD_FITFUL                    23
+#define KNEAD_TOGGLE                    24
 
 
 //---------云养程序区--------------------------------------------------------
@@ -328,6 +334,8 @@
 #define KNOCK_RUN		2 //无需宽中窄定位，无条件立即启动
 #define KNOCK_RUN_STOP		3 //宽中窄定位完成后启动短时间后马上停止
 #define KNOCK_RUN_MUSIC		4 //音乐互动模式（与宽中窄定位无关）
+#define KNOCK_PWM               5
+
 
 //3D电机描述常数
 #define AXIS_1		0 //3D按摩头最靠后 力度最小

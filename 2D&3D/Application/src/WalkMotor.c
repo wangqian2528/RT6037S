@@ -18,11 +18,13 @@ volatile unsigned char nWalkLoss;
 //static bool bFalg; 
 extern bool bRestSleepStatus;
 extern unsigned char nBackSubRunMode ;
+extern unsigned char downWalkRun,upWalkRun;
 
 
 extern unsigned char bWalkSlowFlag ;
 extern bool bWalkPWMFlag ;
-
+int Walk_PWM;
+unsigned short RealTime_Position;
 
 
 void WalkMotor_Initial_IO(void)
@@ -199,6 +201,8 @@ unsigned char WalkMotor_Control(unsigned char nFinalWalkMotorState,unsigned shor
     unsigned char nRetVal ;
     bool bPowerFlag;
     nRetVal = FALSE ;
+
+	static bool init_flag = FALSE;
     unsigned short curPosition = Input_GetWalkMotorPosition();
     nWalkLoss = 0;
    
@@ -289,6 +293,74 @@ unsigned char WalkMotor_Control(unsigned char nFinalWalkMotorState,unsigned shor
         WalkMotor_Up();
         bPowerFlag = TRUE;
         break ;
+	case WALK_DOWN_PULSE:
+      if(Input_GetWalkDownSwitch() == REACH_WALK_LIMIT)
+      {
+        Input_SetWalkMotorPosition(0);
+        bPowerFlag= FALSE;
+        WalkMotor_Break();
+        init_flag = FALSE;
+        nRetVal = TRUE ;
+        break;
+      }
+      if(!init_flag)
+      {
+        RealTime_Position = curPosition;
+        init_flag = TRUE;//保证在到达位置前只获取一次位置
+      }
+      if((curPosition <= RealTime_Position-stopPosition) && (curPosition > RealTime_Position-stopPosition-3))
+      {
+         init_flag = FALSE;
+         bPowerFlag= FALSE;
+         WalkMotor_Break();
+         nRetVal = TRUE ;
+      }
+      else
+      {
+          WalkMotor_Down();
+          bPowerFlag= TRUE;
+      }
+      break;  
+	case UP_DOWN_WALK:
+      nRetVal = TRUE ;
+      Walk_PWM = 90; 
+      if(downWalkRun)
+      {
+        if(Input_GetWalkDownSwitch() == REACH_WALK_LIMIT)
+          {
+            Input_SetWalkMotorPosition(0);
+            bPowerFlag= FALSE;
+            WalkMotor_Break();
+            break;
+          }  
+          WalkMotor_Down();
+          bPowerFlag= TRUE;
+          break;
+      }
+      else
+      {
+        bPowerFlag= FALSE;
+        WalkMotor_Break(); 
+      }
+      if(upWalkRun)
+      {
+         if(Input_GetWalkUpSwitch() == REACH_WALK_LIMIT)
+            {
+              Input_SetWalkMotorPosition(TOP_POSITION);
+              bPowerFlag= FALSE;
+              WalkMotor_Break();      
+              break;
+            }
+            WalkMotor_Up();
+            bPowerFlag= TRUE;  
+            break;
+      }
+      else
+      {
+        bPowerFlag= FALSE;
+        WalkMotor_Break();
+      }
+      break;
     case STATE_WALK_IDLE:
         nRetVal = TRUE ;
         WalkMotor_Break();

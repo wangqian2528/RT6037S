@@ -30,6 +30,10 @@
 #define STATE_WALK_IDLE         2
 #define STATE_RUN_WALK_POSITION 3
 
+#define UP_DOWN_WALK              13
+#define WALK_DOWN_PULSE         14
+
+
 #define WALK_MOTOR_TIMER           TIMER1
 #define WALK_MOTOR_TIMER_CHANNEL   2//0
 #define WALK_MOTOR_ROUTE_EN        TIMER_ROUTE_CC2PEN
