@@ -7137,7 +7137,7 @@ void Main_Initial_Data(void)
           
     UartLeg_init_data();
     
-    nStretchVigor=1; //默认拉筋是1档
+    nStretchVigor=3; //默认拉筋是1档
             //bAngleNoChangeProcess = FALSE;
       //bAngleNoChangeCMD = FALSE; 
       
@@ -11834,7 +11834,7 @@ void Main_Start_Manual(void)
                           nBackSubRunMode = BACK_SUB_MODE_KNEAD ;
                           if(nKeyKneadKnockSpeed == SPEED_0)
                           {
-                            nKeyKneadKnockSpeed = SPEED_2 ;
+                            nKeyKneadKnockSpeed = SPEED_1 ;
                           }
                           if(nKeyKneadWidth == KNEAD_WIDTH_UNKNOWN)
                           {
@@ -11927,7 +11927,7 @@ void Main_Start_Manual(void)
                               //根据当前的状态设置nKeyKneadKnockSpeed,nKeyBackLocate
                           if(nKeyKneadKnockSpeed == SPEED_0)
                           {
-                            nKeyKneadKnockSpeed = SPEED_2 ;
+                            nKeyKneadKnockSpeed = SPEED_1 ;
                           }
                           
                           if(nKeyKneadWidth == KNEAD_WIDTH_UNKNOWN)
@@ -12081,7 +12081,7 @@ void Main_Start_Manual(void)
                         //根据当前的状态设置nKeyKneadKnockSpeed,nKeyBackLocate和nKeyKneadWidth
                         if(nKeyKneadKnockSpeed == SPEED_0)
                         {
-                          nKeyKneadKnockSpeed = SPEED_2 ;
+                          nKeyKneadKnockSpeed = SPEED_1 ;
                         }
                         
                         if(nKeyKneadWidth == KNEAD_WIDTH_UNKNOWN)
@@ -12142,7 +12142,7 @@ void Main_Start_Manual(void)
                         //根据当前的状态设置nKeyKneadKnockSpeed,nKeyBackLocate
                         if(nKeyKneadKnockSpeed == SPEED_0)
                         {
-                          nKeyKneadKnockSpeed = SPEED_2 ;
+                          nKeyKneadKnockSpeed = SPEED_1 ;
                         }
                         if(nKeyKneadWidth == KNEAD_WIDTH_UNKNOWN)
                         {
@@ -12211,7 +12211,7 @@ void Main_Start_Manual(void)
                       //根据当前的状态设置nKeyKneadKnockSpeed,nKeyBackLocate
                       if(nKeyKneadKnockSpeed == SPEED_0)
                       {
-                        nKeyKneadKnockSpeed = SPEED_2 ;
+                        nKeyKneadKnockSpeed = SPEED_1 ;
                       }
                      
                       if(nKeyKneadWidth == KNEAD_WIDTH_UNKNOWN)
@@ -12277,7 +12277,7 @@ void Main_Start_Manual(void)
                       //根据当前的状态设置nKeyKneadKnockSpeed,nKeyBackLocate
                       if(nKeyKneadKnockSpeed == SPEED_0)
                       {
-                        nKeyKneadKnockSpeed = SPEED_2 ;
+                        nKeyKneadKnockSpeed = SPEED_1 ;
                       }
                       
                       if(nKeyKneadWidth == KNEAD_WIDTH_UNKNOWN)
@@ -12345,7 +12345,7 @@ void Main_Start_Manual(void)
                       //根据当前的状态设置nKeyKneadKnockSpeed,nKeyBackLocate
                       if(nKeyKneadKnockSpeed == SPEED_0)
                       {
-                        nKeyKneadKnockSpeed = SPEED_2 ;
+                        nKeyKneadKnockSpeed = SPEED_1 ;
                       }
                       // if((nKeyBackLocate == LOCATE_NONE) || (nKeyBackLocate == LOCATE_POINT))
                       {
