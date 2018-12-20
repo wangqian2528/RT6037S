@@ -2085,12 +2085,13 @@ int Valve_RollerIsAuto(void)
 }
 
 
-
+int step_valve_test;
 void Valve_SetStretchCharge_ARM(unsigned int start)
 {
     Valve_BodyUpAirPumpACPowerOn();
     Valve_LegFootAirPumpACPowerOn();
     static int step = 0;
+    step_valve_test = step;
     switch(step)
     {
     case 0: 
@@ -2100,7 +2101,7 @@ void Valve_SetStretchCharge_ARM(unsigned int start)
         bRightArmUpAirBagValve1   =  VALVE_OFF ; 
         bRightArmUpAirBagValve2   =  VALVE_OFF ;
         bRightArmUpAirBagValve3   =  VALVE_OFF ;
-        if(SholderTime > 200)
+        if(SholderTime > 300)
         {
             step++;
             SholderTime = 0;
@@ -2115,7 +2116,7 @@ void Valve_SetStretchCharge_ARM(unsigned int start)
         bRightArmUpAirBagValve3   =  VALVE_ON ;
         //SholderTime = 0;
         //step++;
-        if(SholderTime > 300)
+        if(SholderTime > 500)
         {
             step++;
             SholderTime = 0;
@@ -2130,7 +2131,7 @@ void Valve_SetStretchCharge_ARM(unsigned int start)
         bRightArmUpAirBagValve3   =  VALVE_OFF ;
         //SholderTime = 0;
         //step++;
-        if(SholderTime > 300)
+        if(SholderTime > 500)
         {
             step = 1;
             SholderTime = 0;
@@ -2144,8 +2145,10 @@ void Valve_SetStretchCharge_ARM(unsigned int start)
         break;  
     }
     //小腿气囊
-    //bLegLeftAirBagValve  = VALVE_OFF;		
-    //bLegRightAirBagValve = VALVE_OFF;   
+    bLegDownBottomAirBagValve   = VALVE_OFF;   //腿肚子下面
+    bLegAirBagValve         = VALVE_OFF;   //夹小腿气阀共四个
+    bLegDownUpAirBagValve   = VALVE_OFF;   //腿肚子上面
+    bLegSideAirBagValve     = VALVE_OFF;   //小腿外侧气阀
     //足部气囊
     bRightFootAirBagValve = VALVE_OFF;
     bLeftFootAirBagValve = VALVE_OFF;
@@ -2157,10 +2160,10 @@ void Valve_SetStretchCharge_ARM(unsigned int start)
     bLeftSholderAirBagValve   =  VALVE_OFF ;
     bRightSholderAirBagValve  =  VALVE_OFF ;
     //背腰气囊 
-    //bhand_elbow_lAirBagValve   =  VALVE_OFF ; 	 
-    //bhand_palm_lAirBagValve    =  VALVE_OFF ;  	  
-    //bhand_palm_rAirBagValve    =  VALVE_OFF ;        
-    //bhand_elbow_rAirBagValve   =  VALVE_OFF ;  
+    bBackWaistRightUp   =  VALVE_OFF ; 	 
+    bBackWaistRightDown    =  VALVE_OFF ;  	  
+    bBackWaistLeftUp    =  VALVE_OFF ;        
+    bBackWaistLeftDown   =  VALVE_OFF ;  
 }
 
 //打开脚部气囊

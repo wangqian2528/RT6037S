@@ -3553,7 +3553,7 @@ StretchProgramStruct const stretchProgram_20[] =
   {14,3,STRETCH_GO_DOWN},
   {10,3,STRETCH_GO_DOWN},
   {6,3,STRETCH_GO_DOWN},
-  {3,1,STRETCH_GO_DOWN},
+  //{3,1,STRETCH_GO_DOWN},
 };
 /*
 StretchProgramStruct const stretchProgram_20[] =
@@ -3584,348 +3584,395 @@ StretchProgramStruct const stretchProgram_5[] =
 };
 	
 	unsigned int p_BackLocation_test;
-	/******************************************************************
-	功能说明：拉筋程序
-	参数：无
-	返回值：无
-	其他说明：拉筋顺序 ①小腿到最高端靠背到指定位置，手臂左右气囊轮番充气
-					   ②小腿收缩到内限位，足部气囊开始充气
-					   ③足部气囊充气够3秒，小腿向外伸一段距离
-					   ④小腿伸到指定位置后，足部和小腿开始充气
-					   ⑤充气够6秒后，打开滚轮，并且打开足部腿部肩部气囊
-					   ⑥足部腿部肩部充气够5秒后，椅子向下开始拉伸
-					   ⑦拉到位置停留10秒后恢复初始位置重复进行	
-	******************************************************************/
-	void Valve_StretchControlProce(void)
-	{
-		bool legFlag,BackFlag;
-		unsigned char FlexFlag;
-		unsigned int p_BackLocation,p_LegLocation;
-		bool bStatus,bBACKStatus;
-		if(!st_Stretch.active) 
-		{
-			bAUTO1AirEnable = FALSE;
-			unsigned int RunTime = Data_Get_TimeSecond();
-			unsigned int Minutes,i;
-			StretchProgramStruct const *p;
-			unsigned int totalTimes;
-		
-			if(RunTime%60 != 0)  return; 
-			
-			if(w_PresetTime == RUN_TIME_10) 
-			{
-				p = stretchProgram_10;
-				totalTimes = sizeof(stretchProgram_10)/sizeof(StretchProgramStruct);
-			}
-			else if(w_PresetTime == RUN_TIME_30) 
-			{
-				p = stretchProgram_30;
-				totalTimes = sizeof(stretchProgram_30)/sizeof(StretchProgramStruct);
-			}
-			else
-			{
-				p = stretchProgram_20;
-				totalTimes = sizeof(stretchProgram_20)/sizeof(StretchProgramStruct);
-			} 
-			Minutes = RunTime/60; //获取当前分钟数
-			
-			if(Minutes == 0) 
-			{
-				st_Stretch.times = 0;
-				return; //最后一分钟停止拉腿
-			}
-			
-			for(i=0;i<totalTimes;i++)
-			{
-				if(Minutes == (p+i)->time) 
-				{
-					st_Stretch.active = TRUE;
-					st_Stretch.init = TRUE; 
-					stretchMode = (p+i)->mode;
-					st_Stretch.times = (p+i)->times;
-					
-					break;
-				}
-			}
-			if(!st_Stretch.active)	return;
-		}
-		
-		if(st_Stretch.init)
-		{
-			nStretchStep = 0;
-			st_Stretch.step = 0;
-			st_Stretch.timer = 0;
-			st_Stretch.init = FALSE;
-		}
-		if(Input_GetBackDownSwitch() == REACH_BACK_LIMIT) BackMotor_Set_Location(BACK_MOTOR_MAX_LOCATION);
-		if(Input_GetBackUpSwitch() == REACH_BACK_LIMIT) BackMotor_Set_Location(0);
-		
-		if(st_Stretch.times > 0)
-		{
-			bAUTO1AirEnable = TRUE;
-			switch(st_Stretch.step)
-			{
-			case  0:   //机芯动作初始化	 机芯到底
-				nStretchStep = 0;
-				AutoDirector = AutoFunctionStretch[nStretchStep] ;//更新机芯数据
-				refreshAutoDirector();
-				st_Stretch.step++;
-				legFlag = FALSE;
-				BackFlag = FALSE;
-				break;
-			case  1:  //小腿到最高位置，靠背到指定位置
-				p_BackLocation = Input_GetBackPosition(); //获取靠背位置
-				legFlag = LegMotor_Control(STATE_RUN_LEG_UP);
-				p_BackLocation_test = p_BackLocation;
-				BackFlag = BackMotor_Control(STATE_RUN_BACK_DOWN) ;	
-				if((bWalkMotorInProcess == FALSE) &&
-				   (bKneadMotorInProcess == FALSE) &&
-					   (bKnockMotorInProcess == FALSE)&&
-						   (b3D_MotorInProcess == FALSE)&&
-							   legFlag &&BackFlag)		   //椅子到达指定位置,机芯动作执行完成
-				{
-					st_Stretch.step ++;
-					st_Stretch.timer = 0; 
-				}
-		  
-				Valve_SetStretchCharge_ARM(0);
-				break;
-			case 2: 
-				nStretchStep = 1;
-				AutoDirector = AutoFunctionStretch[nStretchStep] ;//更新第二组数据
-				refreshAutoDirector();
-				{
-					st_Stretch.step++;
-					st_Stretch.timer = 0;
-					nSet_StretchStopTime(0);//nFlex_StretchIn_TimeStop设置为0
-				}
-				bHaveMan = FALSE;
-				break;
-			case 3: 
-				Valve_SetStretchCharge_ARM(0);//手臂气囊轮番充气,小腿收缩到内限位或者向内运行13s
-				FlexFlag = FlexMotor_Control(STATE_RUN_FLEX_STRETCH_RESET, FLEX_SPEED_FAST, FLEX_CURRENT_2A);//向里收缩至里面限位
-				if(FlexFlag )
-				{
-					st_Stretch.step++;
-					st_Stretch.timer = 0;
-					
-				}
-				if(Input_GetFlexFootSwitch() == FOOT_SWITCH_ON) 
-				{
-					bHaveMan = TRUE;
-				}
-				break;
-			case 4 :
-				//足部左右气囊充气
-				if(FlexMotorGetEnable() == false)//自动找脚完成后一段时间执行下一个case
-				{
-					Valve_SetStretchCharge_FOOT(1);
-					if(st_Stretch.timer > 30)//60 
-					{ 
-						//Valve_SetStretchCharge_FOOT_THIGH(1);
-						st_Stretch.step++;
-						st_Stretch.timer = 0;
-					}
-				}
-				else
-				{
-					st_Stretch.timer = 0;
-				}
-				if(Input_GetFlexFootSwitch() == FOOT_SWITCH_ON) 
-				{
-					bHaveMan = TRUE;
-				}
-				nSet_StretchTime(0);//将w_Timer置0
-				break;
-			case 5: 		 //原来有脚向外运行到找不到脚，原来无脚向外运行2秒停止 
-				FlexFlag = FlexMotor_Control(STATE_RUN_FLEX_STRETCH_OUT, FLEX_SPEED_FAST, FLEX_CURRENT_2A);
-				if( (FlexFlag== FLEX_STOP_AT_OUT)
-				   || (FlexFlag== FLEX_STOP_AT_ANGLE)
-					   || (FlexFlag== FLEX_STOP_AT_GROUND)
-						   || (FlexFlag == FLEX_STOP_AT_FOOT_LEAVE) )
-				{
-					Valve_SetStretchCharge_FOOT_THIGH(1);
-					if(st_Stretch.timer > 100)//60时间太短
-					{
-						st_Stretch.step++;
-						st_Stretch.timer = 0;
-					}
-					FlexMotor_Control(STATE_FLEX_IDLE, FLEX_SPEED_FAST, FLEX_CURRENT_3A);
-				}
-				break;
-			case  6: 
-				if(bRollerEnable)
-				{
-					if(st_Stretch.times % 2== 0)
-					{
-						RollerMotor_Control(ROLLER_SPEED_SLOW,0);
-					}
-					else
-					{
-						RollerMotor_Control(ROLLER_SPEED_SLOW,1);
-					}
-				}
-				st_Stretch.step++;
-				break;
-			case 7:
-				{
-					nStretchStep = 1;
-					AutoDirector = AutoFunctionStretch[nStretchStep] ;
-					refreshAutoDirector();
-					st_Stretch.step++;
-					st_Stretch.timer = 0;
-				}
-				break;
-			case  8: 
-				Valve_SetStretchCharge_FOOT_LEG_SHOULD(0); //打开腿部足部肩部气囊 	
-				if(st_Stretch.timer >= 100)//50时间太短
-				{  //判断是否已达充气时间
-					st_Stretch.step++;
-					st_Stretch.timer = 0;
-				}
-				break;		  
-			case 9: 
-				nStretchStep = 2;
-				AutoDirector = AutoFunctionStretch[nStretchStep] ;
-				refreshAutoDirector();		   
-				st_Stretch.step++;
-				st_Stretch.timer = 0;	  
-				break;
-			case 10:  //拉倒最低端 				  
-				Valve_SetStretchCharge_FOOT_LEG_SHOULD(0); 
-				p_BackLocation = Input_GetBackPosition();  
-				p_LegLocation = LegMotor_Get_Position(); 
-				p_BackLocation_test = p_BackLocation;
-				if(nStretchVigor==1)
-				{
-					if(p_LegLocation > (900 + POSITION_CTRL_OFFSET))
-					{
-						LegMotor_Control(STATE_RUN_LEG_DOWN) ;
-						legFlag = FALSE;
-					}
-					else if(p_LegLocation < (900 - POSITION_CTRL_OFFSET))
-					{
-						LegMotor_Control(STATE_RUN_LEG_UP);
-						legFlag = FALSE;
-					}
-					else
-					{
-						LegMotor_Control(STATE_LEG_IDLE);
-						legFlag = TRUE;
-					}	 
-				}
-				if(nStretchVigor==2)
-				{
-					if(p_LegLocation > (600 + POSITION_CTRL_OFFSET))
-					{
-						LegMotor_Control(STATE_RUN_LEG_DOWN) ;
-						legFlag = FALSE;
-					}
-					else if(p_LegLocation < (600 - POSITION_CTRL_OFFSET))
-					{
-						LegMotor_Control(STATE_RUN_LEG_UP);//STATE_RUN_BACK_UP) ;
-						legFlag = FALSE;
-					}
-					else
-					{
-						LegMotor_Control(STATE_LEG_IDLE);//STATE_BACK_IDLE) ;
-						legFlag = TRUE;
-					}
-				}
-				if(nStretchVigor==3)
-				{
-					legFlag = LegMotor_Control(STATE_RUN_LEG_DOWN);
-
-				}
-				if((legFlag==TRUE))
-				{  
-					if(bRollerEnable)
-					{
-						RollerMotor_Control(ROLLER_SPEED_SLOW,0);
-					}
-					st_Stretch.step++;
-					st_Stretch.timer = 0;
-					nStretchStep = 3;
-					AutoDirector = AutoFunctionStretch[nStretchStep] ;
-					refreshAutoDirector();		 
-				}
-				break;
-		case 11:	//加压时间
-		  Valve_SetStretchHold();//充气保持
-		  st_Stretch.step=12;//++;
-		  st_Stretch.timer = 0;
-		  break;
-		case 12:
-		  
-		  if((st_Stretch.times%2)== 0)
-		  {
-			RollerMotor_Controlstrtch(ROLLER_SPEED_SLOW,ROLLER_MODE_S_RUB);
-		  }
-		  else
-		  {
-			RollerMotor_Controlstrtch(ROLLER_SPEED_SLOW,ROLLER_MODE_L_RUB);
-		  }
-		  
-		  if(stretchMode == STRETCH_GO_DOWN)   
-		  {
-			if(st_Stretch.timer >= 30)
-			{  //判断是否已达加压时间
-			  RollerMotor_Control(ROLLER_SPEED_STOP,0);
-			  bLegAirBagOn = FALSE;
-			  LegKnead_Control(LEG_KNEAD_SPEED_STOP,LEG_KNEAD_TO_IN);
-			  Valve_SetStretchHoldHeelOFF();
-			}
-			if(st_Stretch.timer >= 30)
-			{  //判断是否已达加压时间
-			  
-			  RollerMotor_Control(ROLLER_SPEED_STOP,0);
-			  bLegAirBagOn = FALSE;
-			  LegKnead_Control(LEG_KNEAD_SPEED_STOP,LEG_KNEAD_TO_IN);
-			  Valve_SetStretchHoldHeelSCONDOFF();
-			}
-			if(st_Stretch.timer >=30)
-			{  //判断是否已达加压时间
-			  st_Stretch.step++;
-			  st_Stretch.timer = 0;
-			  RollerMotor_Control(ROLLER_SPEED_STOP,0);
-			  bLegAirBagOn = FALSE;
-			  LegKnead_Control(LEG_KNEAD_SPEED_STOP,LEG_KNEAD_TO_IN);
-			}	 
-			
-			
-		  }
-		  
-		  
-		  break;
-		case 13:
-		  st_Stretch.step = 0;
-		  st_Stretch.timer = 0;
-		  st_Stretch.times--;
-		  Valve_SetStretchUp();  //放气
-		  nStretchStep = 0;
-		  if(st_Stretch.times == 0)
-		  {  
-			st_Stretch.active = 0;
-			bMassagePositionUpdate = 1;
-			nTargetMassagePosition =MASSAGE_OPTIMAL_POSITION;// MASSAGE_OPTIMAL2_POSITION;
-			st_Stretch.bBackLegFlag = FALSE;
-			st_Stretch.timer = 0;		  
-			bBackAutoModeInit = true;  //为了避免机芯出现差错，机芯按摩从头开始
-			
-			if((nBackSubRunMode==BACK_SUB_MODE_AUTO_5MIN_DEMO)&& (Data_Get_TimeSecond()<5*60))
-					  {
-			
-				by_Demo_step=1;  
-			
-				  }
-		  }
-		  break;
-		default:
-		  break;
-		}
-	  }   
-	  
-	}
+        /******************************************************************
+        功能说明：拉筋程序
+        参数：无
+        返回值：无
+        其他说明：拉筋顺序 ①小腿到最高端靠背到指定位置，手臂左右气囊轮番充气
+                           ②小腿收缩到内限位，足部气囊开始充气
+                           ③足部气囊充气够3秒，小腿向外伸一段距离
+                           ④小腿伸到指定位置后，足部和小腿开始充气
+                           ⑤充气够6秒后，打开滚轮，并且打开足部腿部肩部气囊
+                           ⑥足部腿部肩部充气够5秒后，椅子向下开始拉伸
+                           ⑦拉到位置停留10秒后恢复初始位置重复进行  
+        ******************************************************************/
+        void Valve_StretchControlProce(void)
+        {
+            bool legFlag,BackFlag;
+            unsigned char FlexFlag;
+            unsigned int p_BackLocation,p_LegLocation;
+            bool bStatus,bBACKStatus;
+            if(!st_Stretch.active) 
+            {
+                bAUTO1AirEnable = FALSE;
+                unsigned int RunTime = Data_Get_TimeSecond();
+                unsigned int Minutes,i;
+                StretchProgramStruct const *p;
+                unsigned int totalTimes;
+            
+        if(RunTime%60 != 0)  return; //0秒开始拉腿
+            if(nBackSubRunMode == BACK_SUB_MODE_AUTO_5MIN_DEMO)
+              {
+                    p = stretchProgram_5;
+                totalTimes =2;//3;// sizeof(stretchProgram_10)/sizeof(StretchProgramStruct);//totalTimes=3
+                
+               }
+            else
+                {
+                if(w_PresetTime == RUN_TIME_10) 
+                {
+                    p = stretchProgram_10;
+                    totalTimes = sizeof(stretchProgram_10)/sizeof(StretchProgramStruct);
+                }
+                else if(w_PresetTime == RUN_TIME_30) 
+                {
+                    p = stretchProgram_30;
+                    totalTimes = sizeof(stretchProgram_30)/sizeof(StretchProgramStruct);
+                }
+                else
+                {
+                    p = stretchProgram_20;
+                    totalTimes = sizeof(stretchProgram_20)/sizeof(StretchProgramStruct);
+                } 
+                }
+                Minutes = RunTime/60; //获取当前分钟数
+                
+                if(Minutes == 0) 
+                {
+                    st_Stretch.times = 0;
+                    return; //最后一分钟停止拉腿
+                }
+                
+                for(i=0;i<totalTimes;i++)
+                {
+          if((bShoulderOK == 1)  &&(st_Stretch.active == FALSE) )
+          {
+            if(w_PresetTime == RUN_TIME_30) 
+            {
+              if((Minutes == 30 )||
+                 (Minutes == 29 ))
+              {
+                st_Stretch.active = TRUE;
+                stretchMode = STRETCH_GO_DOWN;
+                st_Stretch.init = TRUE; 
+                st_Stretch.times = 3;
+                break;
+              }
+            }
+            else if(w_PresetTime == RUN_TIME_20) 
+            {
+              if((Minutes == 20 )||
+                 (Minutes == 19 ))
+              {
+                st_Stretch.active = TRUE;
+                stretchMode = STRETCH_GO_DOWN;
+                st_Stretch.init = TRUE; 
+                st_Stretch.times = 3;
+                break;
+              }
+            }
+            else
+            {
+              if((Minutes == 10 )||
+                 (Minutes == 9 ))
+              {
+                st_Stretch.active = TRUE;
+                stretchMode = STRETCH_GO_DOWN;
+                st_Stretch.init = TRUE; 
+                st_Stretch.times = 3;
+                break;
+              }
+            } 
+            
+          }
+                    if(Minutes == (p+i)->time) 
+                    {
+                        st_Stretch.active = TRUE;
+                        st_Stretch.init = TRUE; 
+                        stretchMode = (p+i)->mode;
+                        st_Stretch.times = (p+i)->times;
+                        
+                        break;
+                    }
+                }
+                if(!st_Stretch.active)  return;
+            }
+            
+            if(st_Stretch.init)
+            {
+                nStretchStep = 0;
+                st_Stretch.step = 0;
+                st_Stretch.timer = 0;
+                st_Stretch.init = FALSE;
+            }
+            if(Input_GetBackDownSwitch() == REACH_BACK_LIMIT) BackMotor_Set_Location(BACK_MOTOR_MAX_LOCATION);
+            if(Input_GetBackUpSwitch() == REACH_BACK_LIMIT) BackMotor_Set_Location(0);
+            
+            if(st_Stretch.times > 0)
+            {
+                bAUTO1AirEnable = TRUE;
+                switch(st_Stretch.step)
+                {
+                case  0:   //机芯动作初始化   机芯到底
+                    nStretchStep = 0;
+                    AutoDirector = AutoFunctionStretch[nStretchStep] ;//更新机芯数据
+                    refreshAutoDirector();
+                    st_Stretch.step++;
+                    legFlag = FALSE;
+                    BackFlag = FALSE;
+                    break;
+                case  1:  //小腿到最高位置，靠背到指定位置
+                    p_BackLocation = Input_GetBackPosition(); //获取靠背位置
+                    legFlag = LegMotor_Control(STATE_RUN_LEG_UP);
+                    p_BackLocation_test = p_BackLocation;
+                    BackFlag = BackMotor_Control(STATE_RUN_BACK_DOWN) ; 
+                    if((bWalkMotorInProcess == FALSE) &&
+                       (bKneadMotorInProcess == FALSE) &&
+                           (bKnockMotorInProcess == FALSE)&&
+                               (b3D_MotorInProcess == FALSE)&&
+                                   legFlag &&BackFlag)         //椅子到达指定位置,机芯动作执行完成
+                    {
+                        st_Stretch.step ++;
+                        st_Stretch.timer = 0; 
+                    }
+                    Valve_SetStretchCharge_ARM(0);
+                    break;
+                case 2: 
+                    nStretchStep = 1;
+                    AutoDirector = AutoFunctionStretch[nStretchStep] ;//更新第二组数据
+                    refreshAutoDirector();
+                    {
+                        st_Stretch.step++;
+                        st_Stretch.timer = 0;
+                        nSet_StretchStopTime(0);//nFlex_StretchIn_TimeStop设置为0
+                    }
+                    bHaveMan = FALSE;
+                    break;
+                case 3: 
+                    Valve_SetStretchCharge_ARM(0);//手臂气囊轮番充气,小腿收缩到内限位或者向内运行13s
+                    FlexFlag = FlexMotor_Control(STATE_RUN_FLEX_STRETCH_RESET, FLEX_SPEED_FAST, FLEX_CURRENT_2A);
+                    if(FlexFlag )
+                    {
+                        st_Stretch.step++;
+                        st_Stretch.timer = 0;
+                        
+                    }
+                    if(Input_GetFlexFootSwitch() == FOOT_SWITCH_ON) 
+                    {
+                        bHaveMan = TRUE;
+                    }
+                    break;
+                case 4 :
+                    //足部左右气囊充气
+                    if(FlexMotorGetEnable() == false)//自动找脚完成后一段时间执行下一个case
+                    {
+                        Valve_SetStretchCharge_FOOT(1);
+                        if(st_Stretch.timer > 30)//60 
+                        { 
+                            //Valve_SetStretchCharge_FOOT_THIGH(1);
+                            st_Stretch.step++;
+                            st_Stretch.timer = 0;
+                        }
+                    }
+                    else
+                    {
+                        st_Stretch.timer = 0;
+                    }
+                    if(Input_GetFlexFootSwitch() == FOOT_SWITCH_ON) 
+                    {
+                        bHaveMan = TRUE;
+                    }
+                    nSet_StretchTime(0);//将w_Timer置0
+                    break;
+                case 5:          //原来有脚向外运行到找不到脚，原来无脚向外运行2秒停止 
+                    FlexFlag = FlexMotor_Control(STATE_RUN_FLEX_STRETCH_OUT, FLEX_SPEED_FAST, FLEX_CURRENT_2A);
+                    if( (FlexFlag== FLEX_STOP_AT_OUT)
+                       || (FlexFlag== FLEX_STOP_AT_ANGLE)
+                           || (FlexFlag== FLEX_STOP_AT_GROUND)
+                               || (FlexFlag == FLEX_STOP_AT_FOOT_LEAVE) )
+                    {
+                        Valve_SetStretchCharge_FOOT_THIGH(1);
+                        if(st_Stretch.timer > 100)//60时间太短
+                        {
+                            st_Stretch.step++;
+                            st_Stretch.timer = 0;
+                        }
+                        FlexMotor_Control(STATE_FLEX_IDLE, FLEX_SPEED_FAST, FLEX_CURRENT_3A);
+                    }
+                    break;
+                case  6: 
+                    if(bRollerEnable)
+                    {
+                        if(st_Stretch.times % 2== 0)
+                        {
+                            RollerMotor_Control(ROLLER_SPEED_SLOW,0);
+                        }
+                        else
+                        {
+                            RollerMotor_Control(ROLLER_SPEED_SLOW,1);
+                        }
+                    }
+                    st_Stretch.step++;
+                    break;
+                case 7:
+                    {
+                        nStretchStep = 1;
+                        AutoDirector = AutoFunctionStretch[nStretchStep] ;
+                        refreshAutoDirector();
+                        st_Stretch.step++;
+                        st_Stretch.timer = 0;
+                    }
+                    break;
+                case  8: 
+                    Valve_SetStretchCharge_FOOT_LEG_SHOULD(0); //打开腿部足部肩部气囊     
+                    if(st_Stretch.timer >= 100)//50时间太短
+                    {  //判断是否已达充气时间
+                        st_Stretch.step++;
+                        st_Stretch.timer = 0;
+                    }
+                    break;        
+                case 9: 
+                    nStretchStep = 2;
+                    AutoDirector = AutoFunctionStretch[nStretchStep] ;
+                    refreshAutoDirector();         
+                    st_Stretch.step++;
+                    st_Stretch.timer = 0;     
+                    break;
+                case 10:  //拉倒最低端                   
+                    Valve_SetStretchCharge_FOOT_LEG_SHOULD(0); 
+                    p_BackLocation = Input_GetBackPosition();  
+                    p_LegLocation = LegMotor_Get_Position(); 
+                    p_BackLocation_test = p_BackLocation;
+                    if(nStretchVigor==1)
+                    {
+                        if(p_LegLocation > (900 + POSITION_CTRL_OFFSET))
+                        {
+                            LegMotor_Control(STATE_RUN_LEG_DOWN) ;
+                            legFlag = FALSE;
+                        }
+                        else if(p_LegLocation < (900 - POSITION_CTRL_OFFSET))
+                        {
+                            LegMotor_Control(STATE_RUN_LEG_UP);
+                            legFlag = FALSE;
+                        }
+                        else
+                        {
+                            LegMotor_Control(STATE_LEG_IDLE);
+                            legFlag = TRUE;
+                        }    
+                    }
+                    if(nStretchVigor==2)
+                    {
+                        if(p_LegLocation > (600 + POSITION_CTRL_OFFSET))
+                        {
+                            LegMotor_Control(STATE_RUN_LEG_DOWN) ;
+                            legFlag = FALSE;
+                        }
+                        else if(p_LegLocation < (600 - POSITION_CTRL_OFFSET))
+                        {
+                            LegMotor_Control(STATE_RUN_LEG_UP);//STATE_RUN_BACK_UP) ;
+                            legFlag = FALSE;
+                        }
+                        else
+                        {
+                            LegMotor_Control(STATE_LEG_IDLE);//STATE_BACK_IDLE) ;
+                            legFlag = TRUE;
+                        }
+                    }
+                    if(nStretchVigor==3)
+                    {
+                        legFlag = LegMotor_Control(STATE_RUN_LEG_DOWN);
+    
+                    }
+                    if((legFlag==TRUE))
+                    {  
+                        if(bRollerEnable)
+                        {
+                            RollerMotor_Control(ROLLER_SPEED_SLOW,0);
+                        }
+                        st_Stretch.step++;
+                        st_Stretch.timer = 0;
+                        nStretchStep = 3;
+                        AutoDirector = AutoFunctionStretch[nStretchStep] ;
+                        refreshAutoDirector();       
+                    }
+                    break;
+            case 11:    //加压时间
+              Valve_SetStretchHold();//充气保持
+              st_Stretch.step=12;//++;
+              st_Stretch.timer = 0;
+              break;
+            case 12:
+              
+              if((st_Stretch.times%2)== 0)
+              {
+                RollerMotor_Controlstrtch(ROLLER_SPEED_SLOW,ROLLER_MODE_S_RUB);
+              }
+              else
+              {
+                RollerMotor_Controlstrtch(ROLLER_SPEED_SLOW,ROLLER_MODE_L_RUB);
+              }
+              
+              if(stretchMode == STRETCH_GO_DOWN)   
+              {
+                if(st_Stretch.timer >= 30)
+                {  //判断是否已达加压时间
+                  RollerMotor_Control(ROLLER_SPEED_STOP,0);
+                  bLegAirBagOn = FALSE;
+                  LegKnead_Control(LEG_KNEAD_SPEED_STOP,LEG_KNEAD_TO_IN);
+                  Valve_SetStretchHoldHeelOFF();
+                }
+                if(st_Stretch.timer >= 30)
+                {  //判断是否已达加压时间
+                  
+                  RollerMotor_Control(ROLLER_SPEED_STOP,0);
+                  bLegAirBagOn = FALSE;
+                  LegKnead_Control(LEG_KNEAD_SPEED_STOP,LEG_KNEAD_TO_IN);
+                  Valve_SetStretchHoldHeelSCONDOFF();
+                }
+                if(st_Stretch.timer >=30)
+                {  //判断是否已达加压时间
+                  st_Stretch.step++;
+                  st_Stretch.timer = 0;
+                  RollerMotor_Control(ROLLER_SPEED_STOP,0);
+                  bLegAirBagOn = FALSE;
+                  LegKnead_Control(LEG_KNEAD_SPEED_STOP,LEG_KNEAD_TO_IN);
+                }    
+                
+                
+              }
+              
+              
+              break;
+            case 13:
+              st_Stretch.step = 0;
+              st_Stretch.timer = 0;
+              st_Stretch.times--;
+              Valve_SetStretchUp();  //放气
+              nStretchStep = 0;
+              if(st_Stretch.times == 0)
+              {  
+                st_Stretch.active = 0;
+                bMassagePositionUpdate = 1;
+                nTargetMassagePosition =MASSAGE_OPTIMAL_POSITION;// MASSAGE_OPTIMAL2_POSITION;
+                st_Stretch.bBackLegFlag = FALSE;
+                st_Stretch.timer = 0;         
+                bBackAutoModeInit = true;  //为了避免机芯出现差错，机芯按摩从头开始
+                
+                if((nBackSubRunMode==BACK_SUB_MODE_AUTO_5MIN_DEMO)&& (Data_Get_TimeSecond()<5*60))
+                          {
+                
+                    by_Demo_step=1;  
+                
+                      }
+              }
+              break;
+            default:
+              break;
+            }
+          }   
+          
+        }
 
 
 
