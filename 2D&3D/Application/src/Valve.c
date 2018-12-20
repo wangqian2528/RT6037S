@@ -2227,8 +2227,10 @@ void Valve_SetStretchCharge_FOOT_LEG_SHOULD(unsigned int start)
     Valve_BodyUpAirPumpACPowerOn();
     Valve_LegFootAirPumpACPowerOn();
     //小腿气囊
-    //egLeftAirBagValve  = VALVE_ON;//VALVE_OFF;		
-    //egRightAirBagValve = VALVE_ON;//VALVE_OFF;              
+    bLegDownBottomAirBagValve   = VALVE_OFF;   //腿肚子下面
+    bLegAirBagValve         = VALVE_ON;   //夹小腿气阀共四个
+    bLegDownUpAirBagValve   = VALVE_OFF;   //腿肚子上面
+    bLegSideAirBagValve     = VALVE_ON;   //小腿外侧气阀
     //足部气囊
     bRightFootAirBagValve = VALVE_ON;
     bLeftFootAirBagValve = VALVE_ON;

@@ -3677,20 +3677,7 @@ StretchProgramStruct const stretchProgram_5[] =
 				p_BackLocation = Input_GetBackPosition(); //获取靠背位置
 				legFlag = LegMotor_Control(STATE_RUN_LEG_UP);
 				p_BackLocation_test = p_BackLocation;
-				if(p_BackLocation > (MASSAGE_BACK_STRCHUP_LOCATION + 20))
-				{
-					BackMotor_Control(STATE_RUN_BACK_UP) ;
-					BackFlag = FALSE;
-				}
-				else if(p_BackLocation < (MASSAGE_BACK_STRCHUP_LOCATION - 20))
-				{
-					BackMotor_Control(STATE_RUN_BACK_DOWN) ;
-					BackFlag = FALSE;
-				}
-				else
-				{
-					BackFlag = BackMotor_Control(STATE_BACK_IDLE) ;
-				}
+				BackFlag = BackMotor_Control(STATE_RUN_BACK_DOWN) ;	
 				if((bWalkMotorInProcess == FALSE) &&
 				   (bKneadMotorInProcess == FALSE) &&
 					   (bKnockMotorInProcess == FALSE)&&
@@ -3811,21 +3798,6 @@ StretchProgramStruct const stretchProgram_5[] =
 				p_BackLocation_test = p_BackLocation;
 				if(nStretchVigor==1)
 				{
-					if(p_BackLocation > (600 + 20))
-					{
-						BackMotor_Control(STATE_RUN_BACK_UP) ;
-						bBACKStatus = FALSE;
-					}
-					else if(p_BackLocation < (600 - 20))
-					{
-						BackMotor_Control(STATE_RUN_BACK_DOWN) ;
-						bBACKStatus = FALSE;
-					}
-					else
-					{
-						BackMotor_Control(STATE_BACK_IDLE) ;
-						bBACKStatus = TRUE;
-					} 
 					if(p_LegLocation > (900 + POSITION_CTRL_OFFSET))
 					{
 						LegMotor_Control(STATE_RUN_LEG_DOWN) ;
@@ -3844,21 +3816,6 @@ StretchProgramStruct const stretchProgram_5[] =
 				}
 				if(nStretchVigor==2)
 				{
-					if(p_BackLocation > (600 + 20))
-					{
-						BackMotor_Control(STATE_RUN_BACK_UP) ;
-						bBACKStatus = FALSE;
-					}
-					else if(p_BackLocation < (600 - 20))
-					{
-						BackMotor_Control(STATE_RUN_BACK_DOWN) ;
-						bBACKStatus = FALSE;
-					}
-					else
-					{
-						BackMotor_Control(STATE_BACK_IDLE) ;//BackMotor_Set_Pwm_Data(0);
-						bBACKStatus = TRUE;
-					} 
 					if(p_LegLocation > (600 + POSITION_CTRL_OFFSET))
 					{
 						LegMotor_Control(STATE_RUN_LEG_DOWN) ;
@@ -3878,9 +3835,9 @@ StretchProgramStruct const stretchProgram_5[] =
 				if(nStretchVigor==3)
 				{
 					legFlag = LegMotor_Control(STATE_RUN_LEG_DOWN);
-					bBACKStatus = BackMotor_Control(STATE_RUN_BACK_DOWN) ;	
+
 				}
-				if((legFlag==TRUE)&&(bBACKStatus==TRUE))
+				if((legFlag==TRUE))
 				{  
 					if(bRollerEnable)
 					{
@@ -7340,8 +7297,8 @@ BITS engineerData1old;
 #define back_up_old         engineerData1old.bD6
 #define back_down_old       engineerData1old.bD7
 BITS engineerData2old;
-//#define leg_up_old          engineerData2old.bD0
-//#define leg_down_old        engineerData2old.bD1
+#define leg_up_old          engineerData2old.bD0
+#define leg_down_old        engineerData2old.bD1
 
 #define leg_angle_old       engineerData2old.bD0
 #define leg_ground_old      engineerData2old.bD1
@@ -7407,7 +7364,7 @@ BITS2 engineerData4;
 //此函数执行完毕会引起CPU复位
 void Main_Engineering(void)
 {
-//    unsigned short nLegAngleOld;
+    unsigned short nLegAngleOld,nLegGroundOld;
     int leg_flex_step = 0;
     int slide_step = 0;
     has_heat = 1;
@@ -7728,25 +7685,19 @@ void Main_Engineering(void)
                 leg_flex_step = 0;
                 slide_step = 0;
                 
-                //nLegAngleOld = nLegAngle;      
+                nLegAngleOld = nLegAngle; 
+                //nLegGroundOld = nLegGround;
+                nLegGroundOld = Input_GetFlexGroundSwitch();
                 //leg_ground_old = Input_GetFlexGroundSwitch();   
-                if(Input_GetFlexAngleSwitch() == LEGANGLE_SWITCH_ON)//if(nFlexStatus&0x04) 
-                {
-                  leg_angle_old = 1;
-                }
-                else
-                {
-                  leg_angle_old = 0;
-                }
-                
-                if(Input_GetFlexGroundSwitch() == LEGGROUND_SWITCH_ON)//if(nFlexStatus&0x04) 
-                {
-                  leg_ground_old = 1;
-                }
-                else
-                {
-                  leg_ground_old = 0;
-                }
+                    
+//                    if(nFlexStatus&0x04) 
+//                    {
+//                        foot_Switch_old = 1;
+//                    }
+//                    else
+//                    {
+//                        foot_Switch_old = 0;
+//                    }
             
                 if(Input_GetFlexFootSwitch() == FOOT_SWITCH_ON)//if(nFlexStatus&0x04) 
                 {
@@ -8275,6 +8226,7 @@ void Main_Engineering(void)
                     {   //测试小腿上行程开关
               //         FlexMotor_Control(STATE_RUN_FLEX_RESET, FLEX_SPEED_FAST, FLEX_CURRENT_3A);
                       //FlexMotor_Control(STATE_FLEX_IDLE, FLEX_SPEED_FAST, FLEX_CURRENT_3A)();
+                      FlexMotor_Control(STATE_FLEX_IDLE, FLEX_SPEED_FAST, FLEX_CURRENT_3A);
                        switch(leg_flex_step)
                        {
                         case 0:  //到达up位置
@@ -8324,6 +8276,7 @@ void Main_Engineering(void)
                                 //if(FlexMotor_Control(STATE_RUN_FLEX_MANUAL_OUT, FLEX_SPEED_FAST, FLEX_CURRENT_3A))
                               //if(Flex_ControlOut(FLEX_MOTOR_CURRENT_3A))
               //                 if(FlexMotor_Control(STATE_RUN_FLEX_MANUAL_OUT, FLEX_SPEED_FAST, FLEX_CURRENT_3A)) 
+                                if(FlexMotor_Control(STATE_RUN_FLEX_MANUAL_OUT, FLEX_SPEED_FAST, FLEX_CURRENT_3A))
                                 {
                                   leg_flex_step++;
                                   Timer_Counter_Clear(C_TIMER_ENG1);
@@ -8343,6 +8296,7 @@ void Main_Engineering(void)
                  //              if(Input_GetFlexOutSwitch() != REACH_FLEX_LIMIT)
                            //if(Flex_ControlIn(FLEX_MOTOR_CURRENT_3A))
                                 //if(Input_GetFlexOutSwitch() != REACH_FLEX_LIMIT)
+                                if(FlexMotor_Control(STATE_RUN_FLEX_RESET, FLEX_SPEED_FAST, FLEX_CURRENT_3A))
                                 {
                                   Timer_Counter_Clear(C_TIMER_ENG1);
                                   leg_flex_step++;
@@ -8359,6 +8313,7 @@ void Main_Engineering(void)
                                // if(FlexMotor_Control(STATE_RUN_FLEX_MANUAL_OUT, FLEX_SPEED_FAST, FLEX_CURRENT_3A))
                                 //if(Flex_ControlOut(FLEX_MOTOR_CURRENT_3A))
                      //           if(FlexMotor_Control(STATE_RUN_FLEX_MANUAL_OUT, FLEX_SPEED_FAST, FLEX_CURRENT_3A))
+                                if(FlexMotor_Control(STATE_RUN_FLEX_MANUAL_OUT, FLEX_SPEED_FAST, FLEX_CURRENT_3A))
                                 {
                                   leg_flex_step = 0;
                                   flex_up = 1;
@@ -8374,6 +8329,7 @@ void Main_Engineering(void)
                         case 0:  //到达in位置
                      //           if(FlexMotor_Control(STATE_RUN_FLEX_RESET, FLEX_SPEED_FAST, FLEX_CURRENT_3A))
                                 //if(FlexMotor_Control(STATE_RUN_FLEX_RESET, FLEX_SPEED_FAST, FLEX_CURRENT_3A))
+                                if(FlexMotor_Control(STATE_RUN_FLEX_RESET, FLEX_SPEED_FAST, FLEX_CURRENT_3A))
                                 {
                                   leg_flex_step++;
                                   Timer_Counter_Clear(C_TIMER_ENG1);
@@ -8391,6 +8347,7 @@ void Main_Engineering(void)
                     //            if(Input_GetFlexInSwitch() != REACH_FLEX_LIMIT)
                               //if(Flex_ControlOut(FLEX_MOTOR_CURRENT_3A))
                  //          if(FlexMotor_Control(STATE_RUN_FLEX_MANUAL_OUT, FLEX_SPEED_FAST, FLEX_CURRENT_3A)) 
+                            if(FlexMotor_Control(STATE_RUN_FLEX_MANUAL_OUT, FLEX_SPEED_FAST, FLEX_CURRENT_3A))
                            {
                              Timer_Counter_Clear(C_TIMER_ENG1);
                              leg_flex_step++;
@@ -8405,7 +8362,7 @@ void Main_Engineering(void)
                                break;
                           case 4:  //到达In位置
                 //                if(FlexMotor_Control(STATE_RUN_FLEX_RESET, FLEX_SPEED_FAST, FLEX_CURRENT_3A))
-                               //if((Input_GetFlexOutSwitch() != REACH_FLEX_LIMIT))
+                               if(FlexMotor_Control(STATE_RUN_FLEX_RESET, FLEX_SPEED_FAST, FLEX_CURRENT_3A))//if((Input_GetFlexOutSwitch() != REACH_FLEX_LIMIT))
                                 {
                                   leg_flex_step = 0;
                                   flex_down = 1;
@@ -8459,33 +8416,34 @@ void Main_Engineering(void)
                 }//has_leg
                 //靠背
                 
-             /* if(nLegAngle != nLegAngleOld)  
-              {
-                leg_angle = 1;
-              } 
-              */  
-              if(leg_angle_old != Input_GetFlexAngleSwitch())      
-              {
-                leg_angle = 1;
-              }
-              if(leg_ground_old != Input_GetFlexGroundSwitch())
-              {
-                leg_ground = 1;
-              } 
-              if(foot_Switch_old != Input_GetFlexFootSwitch())
-              {
-                foot_Switch = 1;
-              }
-              
-              
-               /*if(nFlexStatus&0x04) 
-                {
-                  if(foot_Switch_old == 0) foot_Switch = 1;
-                }
-                else
-                {
-                  if(foot_Switch_old != 0) foot_Switch = 1;
-                }*/
+                                  if(nLegAngle != nLegAngleOld)  
+                    {
+                        leg_angle = 1;
+                    } 
+//                    if(nLegGround != nLegGroundOld)  
+//                    {
+//                        leg_ground = 1;
+//                    }
+                    if(nLegGroundOld != Input_GetFlexGroundSwitch())
+                    {
+                        leg_ground = 1;
+                    }
+//                    if(nFlexStatus&0x04) 
+//                    {
+//                        if(foot_Switch_old == 0) foot_Switch = 1;
+//                    }
+//                    else
+//                    {
+//                        if(foot_Switch_old != 0) foot_Switch = 1;
+//                    }
+                    if(Input_GetFlexFootSwitch() == FOOT_SWITCH_ON)
+                    {
+                        if(foot_Switch_old == 0) foot_Switch = 1;
+                    }
+                    else
+                    {
+                        if(foot_Switch_old != 0) foot_Switch = 1;
+                    }
               
               if(shoulder_detect_old != Input_GetVout())
               {
@@ -8643,8 +8601,8 @@ void Main_Engineering(void)
 
                 if(walk_up && walk_down && shoulder_detect && knead_width_min && knead_width_mid
                         && knead_width_max && ((!has_leg) || (leg_up && leg_down)) && back_up && back_down 
-                         /* && slide_backward && slide_forward && flex_up && flex_down && foot_Switch 
-                            && leg_angle */ && _3D_Switch_Forward && _3D_Switch_Back && _3D_Switch_Pluse)
+                         /* && slide_backward && slide_forward */&& flex_up && flex_down && foot_Switch 
+                            && leg_angle  && _3D_Switch_Forward && _3D_Switch_Back && _3D_Switch_Pluse)
                 {
                     if(oneKeyStep == 0)
                     {
@@ -8749,7 +8707,7 @@ void Main_Engineering(void)
                     
                         if(walk_up && walk_down && shoulder_detect && knead_width_min && knead_width_mid
                         && knead_width_max && ((!has_leg) || (leg_up && leg_down)) && back_up && back_down 
-                          && slide_backward && slide_forward && flex_up && flex_down && foot_Switch 
+                          /*&& slide_backward && slide_forward */&& flex_up && flex_down && foot_Switch 
                             && leg_angle && _3D_Switch_Forward && _3D_Switch_Back && _3D_Switch_Pluse)
                     {
                         test_finish = 1;
@@ -8815,16 +8773,16 @@ void Main_Engineering(void)
                 OutBuffer[7] = 0;
                 OutBuffer[7] |= 1;//slide_backward;
                 OutBuffer[7] |= 1 << 1;//slide_forward << 1;
-                OutBuffer[7] |= 1 << 2;//flex_up << 2;
-                OutBuffer[7] |= 1 << 3;//flex_down << 3;
+                OutBuffer[7] |= flex_up << 2;
+                OutBuffer[7] |= flex_down << 3;
                 
     //if(Input_GetFlexFootSwitch() == FOOT_SWITCH_ON)       OutBuffer[7] |= 1<< 4; //小于15度  
     //if(Input_GetFlexAngleSwitch() == LEGANGLE_SWITCH_ON)  OutBuffer[7] |= 1<< 5; //小于15度
     //if(Input_GetFlexGroundSwitch() == LEGGROUND_SWITCH_ON)OutBuffer[7] |= 1<< 6; //碰到地面了
               
-                OutBuffer[7] |=1 << 4;// foot_Switch << 4;
-                OutBuffer[7] |= 1 << 5;//leg_angle << 5;
-                OutBuffer[7] |= 1 << 6;//leg_ground << 6;
+                OutBuffer[7] |= foot_Switch << 4;
+                OutBuffer[7] |= leg_angle << 5;
+                OutBuffer[7] |= leg_ground << 6;
                 
                 OutBuffer[8] = 0;
                 OutBuffer[8] |= _3D_Switch_Forward;
@@ -8845,8 +8803,10 @@ void Main_Engineering(void)
             knead_width_max_old = (Input_GetKneadMax() == 0);
             back_up_old = (Input_GetBackUpSwitch() == REACH_BACK_LIMIT);
             back_down_old = (Input_GetBackDownSwitch() == REACH_BACK_LIMIT);
-            //leg_up_old   = (Input_GetLegUpSwitch() == REACH_BACK_LIMIT);//20170528
-            //leg_down_old  = (Input_GetLegDownSwitch() == REACH_BACK_LIMIT);//20170528
+            leg_up_old   = (Input_GetLegUpSwitch() == REACH_BACK_LIMIT);//20170528
+            leg_down_old  = (Input_GetLegDownSwitch() == REACH_BACK_LIMIT);//20170528
+            nLegAngleOld = (Input_GetFlexAngleSwitch() == LEGANGLE_SWITCH_ON);//20180710
+            nLegGroundOld = (Input_GetFlexGroundSwitch() == LEGGROUND_SWITCH_ON);
         }
         break;  
         
@@ -9035,15 +8995,15 @@ void Main_Engineering(void)
                     }
     if(Input_GetFlexAngleSwitch() == LEGANGLE_SWITCH_ON)OutBuffer[1] |= 0x04; //小于15度
     if(Input_GetFlexGroundSwitch() == LEGGROUND_SWITCH_ON)OutBuffer[1] |= 0x08; //碰到地面了
-
+    if(Input_GetFlexFootSwitch() == FOOT_SWITCH_ON) OutBuffer[1] |= 0x10; //碰到脚了
     
     
     
     
                                           //OutBuffer[2] = (nLegAngle >> 7) & 0x7f ;
                                           //OutBuffer[3] = nLegAngle & 0x7f ;
-                    //OutBuffer[2] = (unsigned char)nLegAngle; //low
-                    //OutBuffer[3] = (unsigned char)(nLegAngle >>8);  //high
+                    OutBuffer[2] = (unsigned char)nLegAngle; //low
+                    OutBuffer[3] = (unsigned char)(nLegAngle >>8);  //high
                     OutBuffer[4] = EOI ;
                     nOutBufferCount = 5;
                     HandUart_Transmit_Packet(OutBuffer,nOutBufferCount);
@@ -9076,8 +9036,8 @@ void Main_Engineering(void)
     if(Input_GetFlexFootSwitch() == FOOT_SWITCH_ON)OutBuffer[1] |= 0x10; //
     if(Input_GetFlexAngleSwitch() == LEGANGLE_SWITCH_ON)OutBuffer[1] |= 0x04; //小于15度
     if(Input_GetFlexGroundSwitch() == LEGGROUND_SWITCH_ON)OutBuffer[1] |= 0x08; //碰到地面了
-                    
-                    
+                    OutBuffer[2] = (unsigned char)nLegAngle; //low
+                    OutBuffer[3] = (unsigned char)(nLegAngle >>8);  //high
                     OutBuffer[4] = EOI ;
                     nOutBufferCount = 5;
                     HandUart_Transmit_Packet(OutBuffer,nOutBufferCount);
@@ -9748,7 +9708,7 @@ void Auto_Calibration(int detect3D )
            }
            break;  
         case BODY_DETECT_WALK_POSITION:                    //行走电机下行
-           bWalk_OK = WalkMotor_Control(STATE_RUN_WALK_POSITION,POSITION_T5);//WAIST_POSITION);
+           bWalk_OK = WalkMotor_Control(STATE_RUN_WALK_POSITION,200);//WAIST_POSITION);
            if((bWalk_OK))
            {
              ShoulderSteps =BODY_DETECT_KNEAD_MIN;
@@ -9762,7 +9722,7 @@ void Auto_Calibration(int detect3D )
            }
            break;
          case BODY_DETECT_KNEAD_MAX:
-           bKnead_OK = KneadMotor_Control(STATE_KNEAD_STOP_AT_MED,KNEAD_SPEED2_PWM);
+           bKnead_OK = KneadMotor_Control(STATE_KNEAD_STOP_AT_MAX,KNEAD_SPEED2_PWM);
            if(bKnead_OK)
            {
              ShoulderSteps = BODY_DETECT_3D_FORWARD;

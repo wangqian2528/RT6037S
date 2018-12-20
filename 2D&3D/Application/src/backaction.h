@@ -37,7 +37,7 @@
 #define BACK_SUB_MODE_AUTO_7			8//7//21   			hip-up
 #define BACK_SUB_MODE_AUTO_8			9//8//22  				golfer
 #define BACK_SUB_MODE_AUTO_9		        6//9//23  			 care
-#define BACK_SUB_MODE_AUTO_10			10//24     			growth
+#define BACK_SUB_MODE_AUTO_10			14//24     			growth
 
 
 
@@ -46,7 +46,7 @@
 #define BACK_SUB_MODE_3D3                17// 
 
 #define BACK_SUB_MODE_DEMO               13//      
-#define BACK_SUB_MODE_AUTO_5MIN_DEMO            14
+#define BACK_SUB_MODE_AUTO_5MIN_DEMO            10
 
 /*
 #define BACK_SUB_MODE_AUTO_6			6//20   			examine 
