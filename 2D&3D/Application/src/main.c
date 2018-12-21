@@ -632,6 +632,22 @@ void AxisUpdate_Waitting_100msInt(void)//3D启动10秒，不到位，认为到位
  
 }
 
+
+uint8_t _3D_Protect()
+{
+    if(Input_GetWalkMotorPosition() > _3D_MOTOR_WALK_MAX_POSITION)
+    {
+        if(AxisMotor_Control(STATE_RUN_AXIS_FORWARD,0,_3D_SPEED_7))
+            b3D_MotorInProcess = false; 
+        
+        bAxisUpdate = true; 
+        nDisplayAxisStrength = 4;// wgh 20140421
+        //      break;  
+        return 1;
+    }
+    return 0;
+}
+
 void _3DMotorControl(unsigned char state,unsigned char position,unsigned char speed,unsigned char stopTime)
 {
   if(/*Problem_Get3DFault() || */Problem_GetWalkSwitchFault())
@@ -744,14 +760,7 @@ void _3DMotorControl(unsigned char state,unsigned char position,unsigned char sp
    case  _3D_PROGRAM:
      bAxisUpdate_Manual_Waitting_Timef = FALSE;
      nAxisUpdate_Manual_Waitting_Time_cnt = 0;
-    if(Input_GetWalkMotorPosition() > _3D_MOTOR_WALK_MAX_POSITION&&TAPPING_FLAG!=1)
-    {
-      AxisMotor_Control(STATE_RUN_AXIS_FORWARD,0,_3D_SPEED_7);
-      b3D_MotorInProcess = false;
-      bAxisUpdate = true; 
-      //nDisplayAxisStrength = 4;// wgh 20140421
-      break;      
-    }
+     if(_3D_Protect()) break;
      if(bAxisUpdate)
      {
        unsigned char strength = nSetAxisStrength;
