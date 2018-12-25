@@ -303,7 +303,7 @@ unsigned char AxisMotor_Control(unsigned char nFinalAxisMotorState,unsigned shor
     }*/
     if(_2D_FLAG==1)
     	{
-		stopPosition = _3D_Men_Position;
+		stopPosition = _3D_More_Men_Position;
 
 	  }
 	else

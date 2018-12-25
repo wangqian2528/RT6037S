@@ -656,17 +656,18 @@ void _3DMotorControl(unsigned char state,unsigned char position,unsigned char sp
      AxisMotor_Control(STATE_AXIS_IDLE,0,_3D_SPEED_8); 
      return;
   }
-  if(_2D_FLAG==1)
-  	{
-  	b3D_MotorInProcess = FALSE ;
-  	return;
-  	}
+ 
   switch(state)
   {
       
     //机芯处于MANUAL 模式时，3D 前后工作
     
   case _3D_MANUAL_AUTO_VECTOR:
+     if(_2D_FLAG==1)
+  	{
+  	b3D_MotorInProcess = FALSE ;
+  	return;
+  	}
     //++++++++++++++++++++++++++
     if(Input_GetWalkMotorPosition() > _3D_MOTOR_WALK_MAX_POSITION)
     {
@@ -730,6 +731,10 @@ void _3DMotorControl(unsigned char state,unsigned char position,unsigned char sp
     if(bAxisUpdate)
     {
       nFinalAxisStrength = nKeyAxisStrength;  nDisplayAxisStrength = nFinalAxisStrength;
+      if(_2D_FLAG==1)
+        {
+            nFinalAxisStrength = 3;
+        }
       if(nKeyAxisStrength ==0)
       {
         if(AxisMotor_Control(STATE_RUN_AXIS_VECTOR,nFinalAxisStrength,_3D_SPEED_4) == TRUE)
@@ -758,6 +763,11 @@ void _3DMotorControl(unsigned char state,unsigned char position,unsigned char sp
    }
      break;
    case  _3D_PROGRAM:
+     if(_2D_FLAG==1)
+  	{
+  	b3D_MotorInProcess = FALSE ;
+  	return;
+  	}
      bAxisUpdate_Manual_Waitting_Timef = FALSE;
      nAxisUpdate_Manual_Waitting_Time_cnt = 0;
      if(_3D_Protect()) break;
@@ -805,6 +815,11 @@ void _3DMotorControl(unsigned char state,unsigned char position,unsigned char sp
     }
      break;
   case _3D_PARK:
+     if(_2D_FLAG==1)
+  	{
+  	b3D_MotorInProcess = FALSE ;
+  	return;
+  	}
     nAxisUpdate_Manual_Waitting_Time_cnt = 0;
     nAxisUpdate_Program_Waitting_Time_cnt = 0;
     bAxisUpdate_Manual_Waitting_Timef = FALSE;
@@ -9745,15 +9760,15 @@ void Auto_Calibration(int detect3D )
        if(DETECT_SHOULDER == BodyDetectStep)
        {
          switch(ShoulderSteps)  
-         {
+         { 
          case BODY_DETECT_PREPARE:   //准备 停止敲击马达 3D马达揉捏头停在最前面，宽位置 
            {
              KnockMotor_Break();
 			 if(_2D_FLAG==1)
-			 _b3D_OK =1;
+			 	_b3D_OK = AxisMotor_Control(STATE_RUN_AXIS_FORWARD,2,_3D_SPEED_5);
 			else
 				{
-             _b3D_OK = AxisMotor_Control(STATE_RUN_AXIS_VECTOR,2,_3D_SPEED_5);
+             _b3D_OK = AxisMotor_Control(STATE_RUN_AXIS_FORWARD,2,_3D_SPEED_5);
 			 	}
              bKnead_OK = KneadMotor_Control(STATE_KNEAD_IDLE,KNEAD_SPEED0_PWM);
              bWalk_OK = WalkMotor_Control(STATE_RUN_WALK_UP,0);
@@ -9764,8 +9779,9 @@ void Auto_Calibration(int detect3D )
            }
            break;  
         case BODY_DETECT_WALK_POSITION:                    //行走电机下行
-           bWalk_OK = WalkMotor_Control(STATE_RUN_WALK_POSITION,200);//WAIST_POSITION);
-           if((bWalk_OK))
+			_b3D_OK = AxisMotor_Control(STATE_RUN_AXIS_VECTOR,3,_3D_SPEED_5);
+		   bWalk_OK = WalkMotor_Control(STATE_RUN_WALK_POSITION,200);//WAIST_POSITION);
+           if((bWalk_OK)&&(_b3D_OK))
            {
              ShoulderSteps =BODY_DETECT_KNEAD_MIN;
            }
@@ -10354,10 +10370,10 @@ void Main_Settle(void)
          case 2: 
 		 	 
 			 
-           if( AxisMotor_Control(STATE_RUN_AXIS_FORWARD,2,_3D_SPEED_5))
-            {
+          // if( AxisMotor_Control(STATE_RUN_AXIS_FORWARD,2,_3D_SPEED_5))
+           // {
                 steps++;    
-            }  
+           // }  
             
            break;
          case 3: 
